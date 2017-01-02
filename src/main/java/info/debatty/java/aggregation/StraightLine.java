@@ -21,35 +21,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package info.debatty.java.aggregation;
 
-import junit.framework.TestCase;
-
 /**
- *
+ * Represents a straight line, and allows to compute y = ax + b.
  * @author Thibault Debatty
  */
-public class WOWATest extends TestCase {
+final class StraightLine {
 
-    public WOWATest(String testName) {
-        super(testName);
+    double a = 0.0;
+    double b = 0.0;
+
+    StraightLine(final double a, final double b) {
+        this.a = a;
+        this.b = b;
     }
 
+
     /**
-     * Test of aggregate method, of class WOWA.
+     * Build a straight line from 2 points.
+     * @param p0
+     * @param p1
+     * @return
      */
-    public void testAggregate() {
-        System.out.println("WOWA");
+    public static StraightLine fromPoints(final Point p0, final Point p1) {
+        double a, b;
 
-        double[] values = new double[] {0.4, 0.2, 0.3, 0.1, 0.0};
-        double[] weights = new double[] {0.1, 0.2, 0.3, 0.4, 0.0};
-        double[] ordered_weights = new double[] {0.1, 0.2, 0.3, 0.4, 0.0};
+        if (p0.x == p1.x) {
+            throw new ArithmeticException(
+                    "Division by 0! p0.x=" + p0.x + " p1.x=" + p1.x);
+        }
 
-        WOWA wowa = new WOWA(weights, ordered_weights);
-        double expResult = 0.194296875;
-        double result = wowa.aggregate(values);
-        assertEquals(expResult, result, 1E-9);
+        a = (p0.y - p1.y) / (p0.x - p1.x);
+        b = (p1.x * p0.y - p0.x * p1.y) / (p1.x - p0.x);
+
+        return new StraightLine(a, b);
+
+    }
+
+
+    /**
+     * Compute y = ax + b.
+     * @param x
+     * @return
+     */
+    public double eval(final double x) {
+        return a * x + b;
     }
 
 }

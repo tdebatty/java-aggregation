@@ -1,17 +1,20 @@
 
 package info.debatty.java.aggregation;
 
-//import ww.wwpunt;
-
+/**
+ * Represents an array of points.
+ * @author Thibault Debatty
+ */
 class wwLp {
-  wwpunt punti [];
+  Point[] punti;
   int  lon;
 
-  wwLp (int LARRAY) {
-    /* System.out.println ("INICIALITZANT wwLp:"+LARRAY);  */
+  wwLp(int LARRAY) {
     lon = LARRAY;
-    punti = new wwpunt [LARRAY+1];
-    for (int i=0; i<=LARRAY; i++) { punti[i] = new wwpunt (0.0, 0.0); }
-  };
+    punti = new Point[LARRAY + 1];
+    for (int i = 0; i <= LARRAY; i++) {
+        punti[i] = new Point(0.0, 0.0);
+    }
+  }
 
 }

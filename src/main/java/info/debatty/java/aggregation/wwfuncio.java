@@ -1,7 +1,5 @@
 package info.debatty.java.aggregation;
 
-import java.io.*;
-import java.lang.*;
 
 //import ww.wwrecta;
 //import ww.wwpunt;
@@ -10,18 +8,18 @@ class wwfuncio {
     int t;             /* 1: recta, 2: dobleBernstein */
 
     double m, n;
-    wwpunt di, vi, oi, wi, diP1;
+    Point di, vi, oi, wi, diP1;
 
     static boolean DEBON = false;
     static boolean SEEVAL = false;
     static boolean SEEFUN = false;
 
     wwfuncio() {
-        di = new wwpunt(0.0, 0.0);
-        vi = new wwpunt(0.0, 0.0);
-        oi = new wwpunt(0.0, 0.0);
-        wi = new wwpunt(0.0, 0.0);
-        diP1 = new wwpunt(0.0, 0.0);
+        di = new Point(0.0, 0.0);
+        vi = new Point(0.0, 0.0);
+        oi = new Point(0.0, 0.0);
+        wi = new Point(0.0, 0.0);
+        diP1 = new Point(0.0, 0.0);
     }
 
     ;
@@ -30,11 +28,11 @@ class wwfuncio {
         t = f.t;
         m = f.m;
         n = f.n;
-        di = new wwpunt(f.di.x, f.di.y);
-        vi = new wwpunt(f.vi.x, f.vi.y);
-        oi = new wwpunt(f.oi.x, f.oi.y);
-        wi = new wwpunt(f.wi.x, f.wi.y);
-        diP1 = new wwpunt(f.diP1.x, f.diP1.y);
+        di = new Point(f.di.x, f.di.y);
+        vi = new Point(f.vi.x, f.vi.y);
+        oi = new Point(f.oi.x, f.oi.y);
+        wi = new Point(f.wi.x, f.wi.y);
+        diP1 = new Point(f.diP1.x, f.diP1.y);
     }
 
     ;
@@ -59,9 +57,9 @@ class wwfuncio {
             ti = oi.x;
             xiP1 = diP1.x;
             if ((xi <= x) && (x <= ti)) {
-                y = wwpunt.Bernstein(di, vi, oi, x);
+                y = Point.Bernstein(di, vi, oi, x);
             } else /* x in [ti, xiP1] */ {
-                y = wwpunt.Bernstein(oi, wi, diP1, x);
+                y = Point.Bernstein(oi, wi, diP1, x);
             }
             if (SEEVAL) {
                 System.out.println("\nBerstein ha tornat " + y);
@@ -122,13 +120,11 @@ class wwfuncio {
     } /* initfunc */
 
 
-    public void calcDVOWDNa(wwrecta Li, wwrecta LiP1, wwpunt di, wwpunt diP1, int num_values) {
+    public void calcDVOWDNa(StraightLine Li, StraightLine LiP1, Point di, Point diP1, int num_values) {
         double tip;
-        wwpunt vi = new wwpunt(0.0, 0.0);
-        wwpunt wi = new wwpunt(0.0, 0.0);
-        wwpunt oi = new wwpunt(0.0, 0.0);
-        //wwfuncio f;
-        wwrecta R = new wwrecta(0.0, 0.0);
+        Point vi = new Point(0.0, 0.0);
+        Point wi = new Point(0.0, 0.0);
+        Point oi = new Point(0.0, 0.0);
 
         tip = 0.0;
         vi.x = 0.0;
@@ -138,27 +134,16 @@ class wwfuncio {
         oi.x = 0.0;
         oi.y = 0.0;
         this.initfunc(num_values); // el parametre no s'usa per a res !!
-        R.m = 0.0;
-        R.n = 0.0;
 
-        if (DEBON) {
-            System.out.println("wwfuncio.calcDVOWDNa");
-        }
 
         tip = (di.x + diP1.x) / 2.0;
         vi.x = (di.x + tip) / 2.0;
-        vi.y = Li.m * (di.x + tip) / 2.0 + Li.n;
+        vi.y = Li.a * (di.x + tip) / 2.0 + Li.b;
         wi.x = (diP1.x + tip) / 2.0;
-        wi.y = LiP1.m * (diP1.x + tip) / 2.0 + LiP1.n;
+        wi.y = LiP1.a * (diP1.x + tip) / 2.0 + LiP1.b;
         oi.x = tip;
-        R.buildLineFromPoints(vi, wi);
-        if (SEEVAL) {
-            System.out.println("\nbuildLineFromPoints ha tornat (" + R.m + "," + R.n + ")");
-        }
-        oi.y = R.eval2(tip);
-        if (SEEVAL) {
-            System.out.println("\neval2 ha tornat " + oi.y);
-        }
+        StraightLine R = StraightLine.fromPoints(vi, wi);
+        oi.y = R.eval(tip);
         if (wi.y > wwbasics.maxx(diP1.y, di.y)) {
             System.out.println("wwfuncio.DVOWDNa: Error1");
         }
@@ -188,15 +173,14 @@ class wwfuncio {
     } /* ecalcDVOWDNa */
 
 
-    public void calcDVOWDa(wwrecta Li, wwrecta LiP1, wwpunt di,
-            wwpunt diP1, int num_values) {
+    public void calcDVOWDa(StraightLine Li, StraightLine LiP1, Point di,
+            Point diP1, int num_values) {
         double tip, ti, zi;
         //struct funcio f;
-        wwpunt vi = new wwpunt(0.0, 0.0);
-        wwpunt wi = new wwpunt(0.0, 0.0);
-        wwpunt oi = new wwpunt(0.0, 0.0);
-        wwpunt t = new wwpunt(0.0, 0.0);
-        wwrecta R = new wwrecta(0.0, 0.0);
+        Point vi = new Point(0.0, 0.0);
+        Point wi = new Point(0.0, 0.0);
+        Point oi = new Point(0.0, 0.0);
+        Point t = new Point(0.0, 0.0);
 
         tip = 0.0;
         ti = 0.0;
@@ -210,48 +194,9 @@ class wwfuncio {
         t.x = 0.0;
         t.y = 0.0;
         this.initfunc(num_values);
-        R.m = 0.0;
-        R.n = 0.0;
 
-        if (DEBON) {
-            System.out.println("wwfuncio.calcDVOWDa");
-        }
-
-        /*  codi no traduit del codi C
-         if (Li.m > (infinit / 10.0) ) * start added *
-         {
-         t.x = di.x + (diP1.x - di.x) * 0.1;
-         t.y = LiP1.m * t.x + LiP1.n;
-         vi.x = (t.x + di.x) / 2.0;
-         R = buildLineFromPoints(di,t);
-         vi.y = ( (LiP1.m * vi.x + LiP1.n) + eval2(R,vi.x) ) / 2.0;
-         if (SEEVAL==0) printf("\neval2 ha tornat amb %5.2lf\n",eval2(R,vi.x));
-         wi.x = (diP1.x + t.x) / 2.0;
-         wi.y = LiP1.m * (diP1.x + t.x) / 2.0 + LiP1.n;
-         oi.x = t.x;
-         R = buildLineFromPoints(vi, wi);
-         oi.y = eval2(R, t.x);
-         if (SEEVAL==0) printf("\neval2 ha tornat amb %5.2lf\n",oi.y);
-         }
-         else if (LiP1.m > (infinit / 10.0))
-         {
-         t.x = diP1.x - ( diP1.x - di.x) * 0.1 ;
-         t.y = Li.m * t.x + Li.n;
-         vi.x = (di.x + t.x) / 2.0;
-         vi.y = Li.m * (di.x + t.x) / 2.0 + Li.n;
-         wi.x = (t.x + di.x) / 2.0;
-         R = buildLineFromPoints(diP1,t);
-         wi.y = (Li.m * wi.x + Li.n + eval2(R,wi.x)) / 2.0;
-         if (SEEVAL==0) printf("\neval2 ha tornat amb %5.2lf\n",eval2(R,wi.x));
-         oi.x = t.x;
-         R = buildLineFromPoints(vi, wi);
-         oi.y = eval2(R, t.x);
-         if (SEEVAL==0) printf("\neval2 ha tornat amb %5.2lf\n",oi.y);
-         }
-         else		* end added */
-        /* {  */
-        ti = (Li.n - LiP1.n) / (LiP1.m - Li.m);
-        zi = (LiP1.m * Li.n - Li.m * LiP1.n) / (LiP1.m - Li.m);
+        ti = (Li.b - LiP1.b) / (LiP1.a - Li.a);
+        zi = (LiP1.a * Li.b - Li.a * LiP1.b) / (LiP1.a - Li.a);
         if ((wwbasics.leq(di.x, ti)) && (wwbasics.leq(ti, diP1.x))
                 && (wwbasics.leq(di.y, zi)) && (wwbasics.leq(zi, diP1.y))) {
             tip = ti;
@@ -260,20 +205,13 @@ class wwfuncio {
         }
 
         vi.x = (di.x + tip) / 2.0;
-        vi.y = Li.m * (di.x + tip) / 2.0 + Li.n;
+        vi.y = Li.a * (di.x + tip) / 2.0 + Li.b;
         wi.x = (diP1.x + tip) / 2.0;
-        wi.y = LiP1.m * (diP1.x + tip) / 2.0 + LiP1.n;
+        wi.y = LiP1.a * (diP1.x + tip) / 2.0 + LiP1.b;
         oi.x = tip;
 
-        R.buildLineFromPoints(vi, wi);
-        if (SEEVAL) {
-            System.out.println("\nbuildLineFromPoints ha tornat (" + R.m + "," + R.n + ")");
-        }
-        oi.y = R.eval2(tip);
-        if (SEEVAL) {
-            System.out.println("\neval2 ha tornat " + oi.y);
-        }
-        /* }  * eif added */
+        StraightLine R = StraightLine.fromPoints(vi, wi);
+        oi.y = R.eval(tip);
         this.t = 2;
         this.di.x = di.x;
         this.di.y = di.y;
@@ -287,11 +225,10 @@ class wwfuncio {
         this.diP1.y = diP1.y;
         //return(f);
 
-    } /* ecalcDVOWDa */
+    }
 
-
-    public void calculaDVOWD(wwrecta Li, wwrecta LiP1, wwpunt Di,
-            wwpunt DiP1, int num_values) {
+    public void calculaDVOWD(StraightLine Li, StraightLine LiP1, Point Di,
+            Point DiP1, int num_values) {
         //wwfuncio f;
         this.initfunc(num_values);
 
@@ -299,12 +236,12 @@ class wwfuncio {
             System.out.println("wwfuncio.calculaDVOWD\n");
         }
 
-        if ((Li.m == LiP1.m) && (Li.n == LiP1.n)) {
+        if ((Li.a == LiP1.a) && (Li.b == LiP1.b)) {
             this.t = 1;
-            this.m = Li.m;
-            this.n = Li.n;  /* put ("DVOWD-cas recta"); */
+            this.m = Li.a;
+            this.n = Li.b;  /* put ("DVOWD-cas recta"); */
 
-        } else if (Li.m == LiP1.m) {
+        } else if (Li.a == LiP1.a) {
             this.calcDVOWDNa(Li, LiP1, Di, DiP1, num_values);
             if (SEEFUN) {
                 System.out.println("\ncalculaDVOWDNa retorna....");
