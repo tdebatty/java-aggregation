@@ -1,18 +1,11 @@
 package info.debatty.java.aggregation;
 
 
-//import ww.wwrecta;
-//import ww.wwpunt;
 class wwfuncio {
 
     int t;             /* 1: recta, 2: dobleBernstein */
-
     double m, n;
     Point di, vi, oi, wi, diP1;
-
-    static boolean DEBON = false;
-    static boolean SEEVAL = false;
-    static boolean SEEFUN = false;
 
     wwfuncio() {
         di = new Point(0.0, 0.0);
@@ -21,8 +14,6 @@ class wwfuncio {
         wi = new Point(0.0, 0.0);
         diP1 = new Point(0.0, 0.0);
     }
-
-    ;
 
   public void copia(wwfuncio f) {
         t = f.t;
@@ -35,8 +26,6 @@ class wwfuncio {
         diP1 = new Point(f.diP1.x, f.diP1.y);
     }
 
-    ;
-
 
   public double eval3(double x) {
         double y, xi, ti, xiP1;
@@ -44,12 +33,6 @@ class wwfuncio {
         xi = 0.0;
         ti = 0.0;
         xiP1 = 0.0;
-        if (DEBON) {
-            System.out.println("eval3");
-        }
-        if (SEEVAL) {
-            System.out.println("\na eval3 f.t hauria de ser 1 o 2 i es:" + t);
-        }
         if (t == 1) {
             y = m * x + n;
         } else {
@@ -60,9 +43,6 @@ class wwfuncio {
                 y = Point.Bernstein(di, vi, oi, x);
             } else /* x in [ti, xiP1] */ {
                 y = Point.Bernstein(oi, wi, diP1, x);
-            }
-            if (SEEVAL) {
-                System.out.println("\nBerstein ha tornat " + y);
             }
         }
         if (y > 2.0) {
@@ -86,24 +66,7 @@ class wwfuncio {
         return (y);
     } /*eeval */
 
-
-    public void put4() {
-        if (DEBON) {
-            System.out.println("put4");
-        }
-        System.out.println("\nF R/B:" + t);
-        if (t != 2) /* if f.t = 2, f.m and f.n are not assigned */ {
-            System.out.println("FR:" + m + "," + n);
-        }
-        System.out.println("FB:" + di.x + "," + vi.x + "," + oi.x);
-        System.out.println("   " + di.y + "," + vi.y + "," + oi.y);
-        System.out.println("FB:" + oi.x + "," + wi.x + "," + diP1.x);
-        System.out.println("   " + oi.y + "," + wi.y + "," + diP1.y);
-    } /* eput4 */
-
-
     public void initfunc(int num_values) {
-        int i = num_values; // EL PARAMETRE D'ENTRADA NO SERVEIX PER A RES
         t = 1;
         m = 0.0;
         n = 0.0;
@@ -117,7 +80,7 @@ class wwfuncio {
         wi.y = 0.0;
         diP1.x = 0.0;
         diP1.y = 0.0;
-    } /* initfunc */
+    }
 
 
     public void calcDVOWDNa(StraightLine Li, StraightLine LiP1, Point di, Point diP1, int num_values) {
@@ -144,16 +107,16 @@ class wwfuncio {
         oi.x = tip;
         StraightLine R = StraightLine.fromPoints(vi, wi);
         oi.y = R.eval(tip);
-        if (wi.y > wwbasics.maxx(diP1.y, di.y)) {
+        if (wi.y > Math.max(diP1.y, di.y)) {
             System.out.println("wwfuncio.DVOWDNa: Error1");
         }
-        if (vi.y > wwbasics.maxx(diP1.y, di.y)) {
+        if (vi.y > Math.max(diP1.y, di.y)) {
             System.out.println("wwfuncio.DVOWDNa: Error2");
         }
-        if (wi.y < wwbasics.minn(diP1.y, di.y)) {
+        if (wi.y < Math.min(diP1.y, di.y)) {
             System.out.println("wwfuncio.DVOWDNa: Error3");
         }
-        if (vi.y < wwbasics.minn(diP1.y, di.y)) {
+        if (vi.y < Math.min(diP1.y, di.y)) {
             System.out.println("wwfuncio.DVOWDNa: Error4");
         }
 
@@ -232,10 +195,6 @@ class wwfuncio {
         //wwfuncio f;
         this.initfunc(num_values);
 
-        if (DEBON) {
-            System.out.println("wwfuncio.calculaDVOWD\n");
-        }
-
         if ((Li.a == LiP1.a) && (Li.b == LiP1.b)) {
             this.t = 1;
             this.m = Li.a;
@@ -243,22 +202,9 @@ class wwfuncio {
 
         } else if (Li.a == LiP1.a) {
             this.calcDVOWDNa(Li, LiP1, Di, DiP1, num_values);
-            if (SEEFUN) {
-                System.out.println("\ncalculaDVOWDNa retorna....");
-            }
-            if (SEEFUN) {
-                this.put4();
-            }
         } else {
             this.calcDVOWDa(Li, LiP1, Di, DiP1, num_values);
-            if (SEEFUN) {
-                System.out.println("\ncalculaDVOWDa retorna ....");
-            }
-            if (SEEFUN) {
-                this.put4();
-            }
         }
-        //return(f);
-    } /* ecalculaDVOWD */
+    }
 
 }

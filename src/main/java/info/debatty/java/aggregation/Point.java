@@ -39,7 +39,7 @@ class Point {
         // Check so as not to divide by zero
         if (((ti - xi) * (ti - xi)) == 0.0) {
             double epsilon = 0.000001;
-            if (wwbasics.abso((ti - x) * (xi - x)) < epsilon) {
+            if (Math.abs((ti - x) * (xi - x)) < epsilon) {
                 y = (di.y + oi.y) / 2.0;
             } else {
                 System.out.println("\nDivisio per zero!");
@@ -82,11 +82,11 @@ class Point {
                 System.out.println("QUANTIFIER: Not eq!! ha de ser monoton:");
                 System.out.println("(si,siP1)=(" + si + "," + siP1 + ")");
             }
-        } else if (wwbasics.abso(si) > wwbasics.abso(siP1)) {
+        } else if (Math.abs(si) > Math.abs(siP1)) {
             bx = (diP1.y - di.y) / si + di.x;
             cx = (bx + diP1.x) / 2.0;
             resu = (diP1.y - di.y) / (cx - di.x);
-        } else if (wwbasics.abso(si) < wwbasics.abso(siP1)) {
+        } else if (Math.abs(si) < Math.abs(siP1)) {
             bx = (di.x - (di.y - di_1.y) / siP1);
             cx = (bx + di_1.x) / 2.0;
             resu = (di.y - di_1.y) / (di.x - cx);

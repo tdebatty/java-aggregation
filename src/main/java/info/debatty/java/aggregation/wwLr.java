@@ -34,14 +34,9 @@ class wwLr {
     // false = Modificacio meva C & O
     // true  = Alternativa de McAllister i Roulier segons Iqbal
 
-    static boolean DEBON = false;
-    static boolean SEEVAL = false;
-    static double infinit = 1e10;
+    static double infinit = Double.MAX_VALUE;
 
     wwLr(int LARRAY) {
-        if (DEBON) {
-            System.out.println("wwLr.wwLr");
-        }
         lon = LARRAY;
         rectai = new StraightLine[LARRAY + 1];
         for (int i = 1; i <= LARRAY; i++) {
@@ -81,22 +76,12 @@ class wwLr {
         for (i = 2; i <= N; i++) {
             s.long_float[i] = Point.calculaSi(dd[i], dd[i - 1]);
         }
-        if (SEEVAL) {
-            System.out.println("\ncontingut de s, calculada per calculaSi");
-            for (i = 1; i <= num_values; i++) {
-                System.out.println("s.long_float[" + i + "]=" + s.long_float[i]);
-            }
-        }
+
         for (i = 2; i <= N - 1; i++) {
             m.long_float[i] = Point.calculaMi(s.long_float[i], s.long_float[i + 1],
                     dd[i], dd[i - 1], dd[i + 1]);
         }
-        if (SEEVAL) {
-            System.out.println("\ncontingut de m, calculada per calculaMi");
-            for (i = 1; i <= num_values; i++) {
-                System.out.println("m.long_float[" + i + "d]=" + m.long_float[i]);
-            }
-        }
+
         if (McAllister) {
             if ((s.long_float[2] * (2 * s.long_float[2] - m.long_float[2])) > 0.0) {
                 m.long_float[1] = 2 * s.long_float[2] - m.long_float[2];
@@ -112,6 +97,7 @@ class wwLr {
                 m.long_float[1] = s.long_float[2] * s.long_float[2] / m.long_float[2];
             }
         }
+        
         if (McAllister) {
             if ((s.long_float[N] * (2 * s.long_float[N] - m.long_float[N - 1])) > 0.0) {
                 m.long_float[N] = 2 * s.long_float[N] - m.long_float[N - 1];
