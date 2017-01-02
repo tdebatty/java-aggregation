@@ -7,7 +7,7 @@ package info.debatty.java.aggregation;
 
 class wwLdf {
 
-    wwLp d;
+    Points d;
     wwLfn f;
 
     public wwLdf(int num_values) {
@@ -88,7 +88,7 @@ class wwLdf {
         int i;
         // Ldf ff;
         // la funcio eval4 accedeix al d[punt+1]
-        d = new wwLp(num_values + 1);
+        d = new Points(num_values + 1);
         f = new wwLfn(num_values + 1);
 
         for (i = 1; i <= num_values; i++) {
@@ -124,9 +124,9 @@ class wwLdf {
     /**
      * **********************************************************************
      */
-    public void ferQ(wwLp dd, int num_values) {
+    public void ferQ(Points dd, int num_values) {
         // Afegeixo la definicio de les variables de Ldf
-        d = new wwLp(num_values + 1);
+        d = new Points(num_values + 1);
         f = new wwLfn(num_values + 1);
 
         wwLr L = new wwLr(num_values + 1); //******* Darrera modificacio

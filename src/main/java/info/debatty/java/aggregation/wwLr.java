@@ -61,12 +61,12 @@ class wwLr {
     /**
      * *********************************************************************
      */
-    public void calculaLi(wwLp d, int num_values) {
+    public void calculaLi(Points d, int num_values) {
         wwLf s = new wwLf(num_values + 1);
         wwLf m = new wwLf(num_values + 1);
         //wwLr L = new wwLr (num_values);
         int N, i;
-        wwLp dd = new wwLp(num_values);
+        Points dd = new Points(num_values);
         N = 0;
         i = 0;
 
