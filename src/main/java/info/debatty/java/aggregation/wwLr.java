@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package info.debatty.java.aggregation;
 
 //import ww.wwrecta;
@@ -61,12 +60,12 @@ class wwLr {
     /**
      * *********************************************************************
      */
-    public void calculaLi(Points d, int num_values) {
+    public void calculaLi(Point[] d, int num_values) {
         wwLf s = new wwLf(num_values + 1);
         wwLf m = new wwLf(num_values + 1);
         //wwLr L = new wwLr (num_values);
         int N, i;
-        Points dd = new Points(num_values);
+        Point[] dd = new Point[num_values + 1];
         N = 0;
         i = 0;
 
@@ -74,26 +73,13 @@ class wwLr {
 
             s.long_float[i] = 0.0;
             m.long_float[i] = 0.0;
-            dd.punti[i].x = 0.0;
-            dd.punti[i].y = 0.0;
+            dd[i] = new Point(0.0, 0.0);
         }
-        dd = d;  /* ?? */
-
-        if (SEEVAL) {
-            System.out.println("\na veure si s'ha assignat be dd....");
-            for (i = 1; i <= num_values + 1; i++) {
-                System.out.println("dd.punti[" + i + "].x=" + dd.punti[i].x);
-                System.out.println("dd.punti[" + i + "].y=" + dd.punti[i].y);
-            }
-        }
-        if (DEBON) {
-            System.out.println("calculaLi");
-        }
-
+        dd = d;
         N = num_values + 1; //N es la darrera posicio de d, i d es num_values+1
 
         for (i = 2; i <= N; i++) {
-            s.long_float[i] = Point.calculaSi(dd.punti[i], dd.punti[i - 1]);
+            s.long_float[i] = Point.calculaSi(dd[i], dd[i - 1]);
         }
         if (SEEVAL) {
             System.out.println("\ncontingut de s, calculada per calculaSi");
@@ -103,7 +89,7 @@ class wwLr {
         }
         for (i = 2; i <= N - 1; i++) {
             m.long_float[i] = Point.calculaMi(s.long_float[i], s.long_float[i + 1],
-                    dd.punti[i], dd.punti[i - 1], dd.punti[i + 1]);
+                    dd[i], dd[i - 1], dd[i + 1]);
         }
         if (SEEVAL) {
             System.out.println("\ncontingut de m, calculada per calculaMi");
@@ -144,11 +130,10 @@ class wwLr {
         }
         for (i = 1; i <= N; i++) {
             this.rectai[i].a = m.long_float[i];
-            this.rectai[i].b = d.punti[i].y - m.long_float[i] * d.punti[i].x;
+            this.rectai[i].b = d[i].y - m.long_float[i] * d[i].x;
             /* si m[i] = infinit */
         } /* efor */
         //return(L);
 
     } /* ecalculaLi */
-
 }

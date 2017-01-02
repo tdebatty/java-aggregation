@@ -36,19 +36,17 @@ class wwLwav2 {
 
     public wwLdf setQ(int num_values) {
         // de vLp se'n necessita un punt de mes perque es va a llo+1
-        Points vLp = new Points(num_values + 1);
+        Point[] vLp = new Point[num_values + 2];
         wwLdf df = new wwLdf(num_values + 1); /* es lo que se devuelve */
 
         int i;
         double tempx, llo;
 
         llo = num_values;
-        vLp.punti[1].x = 0.0;
-        vLp.punti[1].y = 0.0;
+        vLp[1] = new Point(0.0, 0.0);
         for (i = 2; i <= llo + 1; i++) {
             tempx = i - 1;
-            vLp.punti[i].x = tempx / llo;
-            vLp.punti[i].y = uniti[i - 1] + vLp.punti[i - 1].y;
+            vLp[i] = new Point(tempx / llo, uniti[i - 1] + vLp[i - 1].y);
         }
         // df.initLdf(num_values);
         df.ferQ(vLp, num_values);

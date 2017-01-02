@@ -7,7 +7,7 @@ package info.debatty.java.aggregation;
 
 class wwLdf {
 
-    Points d;
+    Point[] d;
     wwLfn f;
 
     public wwLdf(int num_values) {
@@ -18,7 +18,7 @@ class wwLdf {
         int i;
 
         for (i = 1; i <= num_values; i++) {
-            System.out.println(i + ": p=(" + d.punti[i].x + "," + d.punti[i].y + ")");
+            System.out.println(i + ": p=(" + d[i].x + "," + d[i].y + ")");
             if (f.funcioi[i].t == 1) {
                 System.out.println("  y=" + f.funcioi[i].m + "*x+" + f.funcioi[i].n);
             } else {
@@ -30,8 +30,8 @@ class wwLdf {
                 System.out.println(f.funcioi[i].diP1.x + ":" + f.funcioi[i].di.y);
             }
         }
-        System.out.print((num_values + 1) + ": p=(" + d.punti[num_values + 1].x + ",");
-        System.out.println(d.punti[num_values + 1].y + ")");
+        System.out.print((num_values + 1) + ": p=(" + d[num_values + 1].x + ",");
+        System.out.println(d[num_values + 1].y + ")");
     } /* eput */
 
 
@@ -47,27 +47,27 @@ class wwLdf {
 
         //trobat = false; i=1;
         for (trobat = false, i = 1; (!trobat) && (i <= num_values); i++) {
-            if ((wwbasics.leq(d.punti[i].x, x))
-                    && (wwbasics.leq(x, d.punti[i + 1].x))) {
+            if ((wwbasics.leq(d[i].x, x))
+                    && (wwbasics.leq(x, d[i + 1].x))) {
                 trobat = true;
                 y = (f.funcioi[i]).eval3(x);
             }
         }
 
         if (!trobat) {
-            if (wwbasics.leq(x, d.punti[1].x)) {
+            if (wwbasics.leq(x, d[1].x)) {
                 y = 0.0;
                 trobat = true;
             }
             if ((!trobat)
-                    && (wwbasics.leq(d.punti[num_values + 1].x, x))) {
+                    && (wwbasics.leq(d[num_values + 1].x, x))) {
                 y = 1.0;
                 trobat = true;
             }
             if (!trobat) {
                 System.out.println("EVLdf.NO TROBAT. x:=" + x);
-                System.out.println("MINIM:" + d.punti[1].x);
-                System.out.println("MAXIM:" + d.punti[num_values].x);
+                System.out.println("MINIM:" + d[1].x);
+                System.out.println("MAXIM:" + d[num_values].x);
                 System.out.print("LongArray (pensa que a aixo se li suma 1!!):");
                 System.out.println(":" + num_values);
                 System.out.println("FUNCIO ");
@@ -88,13 +88,12 @@ class wwLdf {
         int i;
         // Ldf ff;
         // la funcio eval4 accedeix al d[punt+1]
-        d = new Points(num_values + 1);
+        d = new Point[num_values + 2];
         f = new wwLfn(num_values + 1);
 
         for (i = 1; i <= num_values; i++) {
             // System.out.println ("Num_values:"+num_values+"i:"+i);
-            d.punti[i].x = 0.0;
-            d.punti[i].y = 0.0;
+            d[i] = new Point(0.0, 0.0);
             f.funcioi[i].t = 1;
             f.funcioi[i].m = 0.0;
             f.funcioi[i].n = 0.0;
@@ -109,8 +108,8 @@ class wwLdf {
             f.funcioi[i].wi.y = 0.0;
             f.funcioi[i].diP1.y = 0.0;
         }
-        //d.punti[num_values].x = 0.0;
-        //d.punti[num_values].y = 0.0;
+        //d[num_values].x = 0.0;
+        //d[num_values].y = 0.0;
     } /* initLdf */
 
 
@@ -124,9 +123,11 @@ class wwLdf {
     /**
      * **********************************************************************
      */
-    public void ferQ(Points dd, int num_values) {
+    public void ferQ(Point[] dd, int num_values) {
         // Afegeixo la definicio de les variables de Ldf
-        d = new Points(num_values + 1);
+        d = new Point[num_values + 2];
+        d[num_values + 1] = new Point(0.0, 0.0);
+
         f = new wwLfn(num_values + 1);
 
         wwLr L = new wwLr(num_values + 1); //******* Darrera modificacio
@@ -138,11 +139,8 @@ class wwLdf {
 
         // I si canvio d per dd en la definicio de la funcio, aixo ho puc treure
         // dd = d; /* avoids too many indirection passes */
-
-
         for (i = 1; i <= num_values; i++) /* initialize L and f */ {
-            this.d.punti[i].x = 0.0;
-            this.d.punti[i].y = 0.0;
+            this.d[i] = new Point(0.0, 0.0);
             this.f.funcioi[i].t = 1;
             this.f.funcioi[i].m = 0.0;
             this.f.funcioi[i].n = 0.0;
@@ -159,21 +157,21 @@ class wwLdf {
             this.f.funcioi[i].diP1.y = 0.0;
         }
         tempFun.initfunc(num_values);
-        this.d.punti[num_values].x = 0.0;
-        this.d.punti[num_values].y = 0.0;
+        this.d[num_values].x = 0.0;
+        this.d[num_values].y = 0.0;
 
         L.calculaLi(dd, num_values);
 
-        for (i = 1; i <= num_values; i++) // AQUI HI HAVIA num_values - 1 (*1*)(*!*)
-        {
-            this.d.punti[i].x = dd.punti[i].x;
-            this.d.punti[i].y = dd.punti[i].y;
-            tempFun.calculaDVOWD(L.rectai[i], L.rectai[i + 1], dd.punti[i],
-                    dd.punti[i + 1], num_values);
+        for (i = 1; i <= num_values; i++) {
+            this.d[i].x = dd[i].x;
+            this.d[i].y = dd[i].y;
+            tempFun.calculaDVOWD(L.rectai[i], L.rectai[i + 1], dd[i],
+                    dd[i + 1], num_values);
             this.f.funcioi[i].copia(tempFun);
         }
-        this.d.punti[num_values + 1].x = dd.punti[num_values + 1].x;
-        this.d.punti[num_values + 1].y = dd.punti[num_values + 1].y;
+        this.d[num_values + 1].x = dd[num_values + 1].x;
+        this.d[num_values + 1].y = dd[num_values + 1].y;
         //return (f2);
     } /* eferQ */
+
 }
