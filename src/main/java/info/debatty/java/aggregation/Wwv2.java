@@ -49,11 +49,11 @@ class Wwv2 {
         return wm(pn, an, p.size());
     }
 
-    public static double wowa(Vector w, Vector p, Vector a) {
+    public static double wowa(double[] w, double[] p, Vector a) {
         wwLwav2 wn = new wwLwav2(w);
         wwLwav2 pn = new wwLwav2(p);
         wwLvav2 an = new wwLvav2(a);
-        return wowa(wn, pn, an, w.size());
+        return wowa(wn, pn, an, w.length);
     }
 
     public static double wowa(wwLwav2 w, wwLwav2 p, wwLvav2 a, int num_values) {
@@ -68,13 +68,13 @@ class Wwv2 {
 
 
         a.orderA(p, num_values);
-        omega.uniti[1] = fer.eval4(p.uniti[1], num_values);
-        acc = p.uniti[1];
+        omega.values[1] = fer.eval4(p.values[1], num_values);
+        acc = p.values[1];
 
         for (i = 2; i <= num_values; i++) {
             accv = acc;
-            acc = acc + p.uniti[i];
-            omega.uniti[i] = fer.eval4(acc, num_values)
+            acc = acc + p.values[i];
+            omega.values[i] = fer.eval4(acc, num_values)
                     - fer.eval4(accv, num_values);
 
         }

@@ -94,9 +94,9 @@ class wwLvav2 {
         for (i = 1; i <= num_values; i++) {
             for (j = i + 1; j <= num_values; j++) {
                 if (valuei[j] > valuei[i]) {
-                    aW = w.uniti[j];
-                    w.uniti[j] = w.uniti[i];
-                    w.uniti[i] = aW;
+                    aW = w.values[j];
+                    w.values[j] = w.values[i];
+                    w.values[i] = aW;
                     aV = valuei[j];
                     valuei[j] = valuei[i];
                     valuei[i] = aV;
@@ -123,7 +123,7 @@ class wwLvav2 {
             System.out.println("escProd\n");
         }
         for (i = 1, r = 0.0; i <= num_values; i++) {
-            r = r + (w.uniti[i] * valuei[i]);
+            r = r + (w.values[i] * valuei[i]);
             /* s'ha de forcar una cohercio T[w]=Unit <> T[a]=value */
         }
         return (r);

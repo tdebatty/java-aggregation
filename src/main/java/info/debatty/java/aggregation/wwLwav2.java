@@ -5,31 +5,41 @@ import java.util.Enumeration;
 
 class wwLwav2 {
 
-    double uniti[];
+    double[] values;
     int lon;
 
     wwLwav2() {
         lon = 10;
-        uniti = new double[10 + 1];
+        values = new double[10 + 1];
     }
 
     wwLwav2(int LARRAY) {
         lon = LARRAY;
-        uniti = new double[LARRAY + 1];
+        values = new double[LARRAY + 1];
     }
 
     public wwLwav2(Vector v) {
         lon = v.size();
-        uniti = new double[lon + 1];
+        values = new double[lon + 1];
         Enumeration p = v.elements();
         for (int i = 1; p.hasMoreElements(); i++) {
-            uniti[i] = ((Double) p.nextElement()).doubleValue();
+            values[i] = ((Double) p.nextElement()).doubleValue();
+        }
+    }
+
+    public wwLwav2(double[] values) {
+        lon = values.length;
+        this.values = new double[lon + 1];
+
+        // values[0..] are copied to this.values[1..] :-(
+        for (int i = 1; i <= values.length; i++) {
+            this.values[i] = values[i-1];
         }
     }
 
     void escriu() {
         for (int i = 1; i <= lon; i++) {
-            System.out.print(uniti[i] + " ");
+            System.out.print(values[i] + " ");
         }
         System.out.print("\n");
     }
@@ -46,7 +56,7 @@ class wwLwav2 {
         vLp[1] = new Point(0.0, 0.0);
         for (i = 2; i <= llo + 1; i++) {
             tempx = i - 1;
-            vLp[i] = new Point(tempx / llo, uniti[i - 1] + vLp[i - 1].y);
+            vLp[i] = new Point(tempx / llo, values[i - 1] + vLp[i - 1].y);
         }
         // df.initLdf(num_values);
         df.ferQ(vLp, num_values);
