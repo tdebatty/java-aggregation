@@ -97,7 +97,7 @@ class wwLr {
                 m.long_float[1] = s.long_float[2] * s.long_float[2] / m.long_float[2];
             }
         }
-        
+
         if (McAllister) {
             if ((s.long_float[N] * (2 * s.long_float[N] - m.long_float[N - 1])) > 0.0) {
                 m.long_float[N] = 2 * s.long_float[N] - m.long_float[N - 1];
@@ -105,7 +105,7 @@ class wwLr {
                 m.long_float[N] = 0.0;
             }
         } else {
-            if ((m.long_float[N - 1] == 0.0) && (wwbasics.eqq(s.long_float[N], 0.0))) {
+            if ((m.long_float[N - 1] == 0.0) && (s.long_float[N] == 0.0)) {
                 m.long_float[N] = 0.0;
             } else if (m.long_float[N - 1] == 0.0) {
                 m.long_float[N] = infinit;

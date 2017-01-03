@@ -19,7 +19,6 @@ class Point {
         System.out.print("(" + x + "," + y + ")");
     }
 
-
     /**
      * ***********************************************************
      */
@@ -52,7 +51,7 @@ class Point {
             }
         }
 
-        if (wwbasics.eqq(ti, xi)) {
+        if (ti == xi) {
             y = mi;
         } else {
             y = mi * (ti - x) * (ti - x) + 2.0 * b * (x - xi) * (ti - x);
@@ -68,17 +67,14 @@ class Point {
         return (resu);
     }
 
-
     public static double calculaMi(double si, double siP1, Point di,
             Point di_1, Point diP1) {
+
         double bx, cx, resu;
-        bx = 0.0;
-        cx = 0.0;
-        resu = 0.0;
 
         if ((si * siP1) < 0.0) {
             resu = 0.0;
-            if (!wwbasics.eqq(si * siP1, 0.0)) {
+            if (si * siP1 != 0.0) {
                 System.out.println("QUANTIFIER: Not eq!! ha de ser monoton:");
                 System.out.println("(si,siP1)=(" + si + "," + siP1 + ")");
             }
