@@ -19,19 +19,19 @@ class wwLdf {
         for (int i = 1; i <= num_values; i++) {
             // System.out.println ("Num_values:"+num_values+"i:"+i);
             d[i] = new Point(0.0, 0.0);
-            f.funcioi[i].t = 1;
-            f.funcioi[i].m = 0.0;
-            f.funcioi[i].n = 0.0;
-            f.funcioi[i].di.x = 0.0;
-            f.funcioi[i].vi.x = 0.0;
-            f.funcioi[i].oi.x = 0.0;
-            f.funcioi[i].wi.x = 0.0;
-            f.funcioi[i].diP1.x = 0.0;
-            f.funcioi[i].di.y = 0.0;
-            f.funcioi[i].vi.y = 0.0;
-            f.funcioi[i].oi.y = 0.0;
-            f.funcioi[i].wi.y = 0.0;
-            f.funcioi[i].diP1.y = 0.0;
+            f.functions[i].t = 1;
+            f.functions[i].m = 0.0;
+            f.functions[i].n = 0.0;
+            f.functions[i].di.x = 0.0;
+            f.functions[i].vi.x = 0.0;
+            f.functions[i].oi.x = 0.0;
+            f.functions[i].wi.x = 0.0;
+            f.functions[i].diP1.x = 0.0;
+            f.functions[i].di.y = 0.0;
+            f.functions[i].vi.y = 0.0;
+            f.functions[i].oi.y = 0.0;
+            f.functions[i].wi.y = 0.0;
+            f.functions[i].diP1.y = 0.0;
         }
     }
 
@@ -40,15 +40,15 @@ class wwLdf {
 
         for (i = 1; i <= num_values; i++) {
             System.out.println(i + ": p=(" + d[i].x + "," + d[i].y + ")");
-            if (f.funcioi[i].t == 1) {
-                System.out.println("  y=" + f.funcioi[i].m + "*x+" + f.funcioi[i].n);
+            if (f.functions[i].t == 1) {
+                System.out.println("  y=" + f.functions[i].m + "*x+" + f.functions[i].n);
             } else {
                 System.out.println(i + "DOUBLE BERSTEIN:");
-                System.out.println(f.funcioi[i].di.x + ":" + f.funcioi[i].di.y);
-                System.out.println(f.funcioi[i].vi.x + ":" + f.funcioi[i].di.y);
-                System.out.println(f.funcioi[i].oi.x + ":" + f.funcioi[i].di.y);
-                System.out.println(f.funcioi[i].wi.x + ":" + f.funcioi[i].di.y);
-                System.out.println(f.funcioi[i].diP1.x + ":" + f.funcioi[i].di.y);
+                System.out.println(f.functions[i].di.x + ":" + f.functions[i].di.y);
+                System.out.println(f.functions[i].vi.x + ":" + f.functions[i].di.y);
+                System.out.println(f.functions[i].oi.x + ":" + f.functions[i].di.y);
+                System.out.println(f.functions[i].wi.x + ":" + f.functions[i].di.y);
+                System.out.println(f.functions[i].diP1.x + ":" + f.functions[i].di.y);
             }
         }
         System.out.print((num_values + 1) + ": p=(" + d[num_values + 1].x + ",");
@@ -71,7 +71,7 @@ class wwLdf {
             if ((wwbasics.leq(d[i].x, x))
                     && (wwbasics.leq(x, d[i + 1].x))) {
                 trobat = true;
-                y = (f.funcioi[i]).eval3(x);
+                y = (f.functions[i]).eval3(x);
             }
         }
 
@@ -127,27 +127,27 @@ class wwLdf {
         //Ldf f2;
         // Aixo de sota ho trec.
         // wwLp dd = new wwLp (num_values);
-        wwfuncio tempFun = new wwfuncio();
+        Function tempFun = new Function();
         int i;
 
         // I si canvio d per dd en la definicio de la funcio, aixo ho puc treure
         // dd = d; /* avoids too many indirection passes */
         for (i = 1; i <= num_values; i++) /* initialize L and f */ {
             this.d[i] = new Point(0.0, 0.0);
-            this.f.funcioi[i].t = 1;
-            this.f.funcioi[i].m = 0.0;
-            this.f.funcioi[i].n = 0.0;
+            this.f.functions[i].t = 1;
+            this.f.functions[i].m = 0.0;
+            this.f.functions[i].n = 0.0;
 
-            this.f.funcioi[i].di.x = 0.0;
-            this.f.funcioi[i].vi.x = 0.0;
-            this.f.funcioi[i].oi.x = 0.0;
-            this.f.funcioi[i].wi.x = 0.0;
-            this.f.funcioi[i].diP1.x = 0.0;
-            this.f.funcioi[i].di.y = 0.0;
-            this.f.funcioi[i].vi.y = 0.0;
-            this.f.funcioi[i].oi.y = 0.0;
-            this.f.funcioi[i].wi.y = 0.0;
-            this.f.funcioi[i].diP1.y = 0.0;
+            this.f.functions[i].di.x = 0.0;
+            this.f.functions[i].vi.x = 0.0;
+            this.f.functions[i].oi.x = 0.0;
+            this.f.functions[i].wi.x = 0.0;
+            this.f.functions[i].diP1.x = 0.0;
+            this.f.functions[i].di.y = 0.0;
+            this.f.functions[i].vi.y = 0.0;
+            this.f.functions[i].oi.y = 0.0;
+            this.f.functions[i].wi.y = 0.0;
+            this.f.functions[i].diP1.y = 0.0;
         }
         tempFun.initfunc(num_values);
         this.d[num_values].x = 0.0;
@@ -160,7 +160,7 @@ class wwLdf {
             this.d[i].y = dd[i].y;
             tempFun.calculaDVOWD(L.rectai[i], L.rectai[i + 1], dd[i],
                     dd[i + 1], num_values);
-            this.f.funcioi[i].copia(tempFun);
+            this.f.functions[i].copia(tempFun);
         }
         this.d[num_values + 1].x = dd[num_values + 1].x;
         this.d[num_values + 1].y = dd[num_values + 1].y;

@@ -1,13 +1,17 @@
 package info.debatty.java.aggregation;
 
-
-class wwfuncio {
+/**
+ * Represents a single interpolation function.
+ * @author Thibault Debatty
+ */
+class Function {
 
     int t;             /* 1: recta, 2: dobleBernstein */
+
     double m, n;
     Point di, vi, oi, wi, diP1;
 
-    wwfuncio() {
+    Function() {
         di = new Point(0.0, 0.0);
         vi = new Point(0.0, 0.0);
         oi = new Point(0.0, 0.0);
@@ -15,7 +19,7 @@ class wwfuncio {
         diP1 = new Point(0.0, 0.0);
     }
 
-  public void copia(wwfuncio f) {
+    public void copia(Function f) {
         t = f.t;
         m = f.m;
         n = f.n;
@@ -26,8 +30,7 @@ class wwfuncio {
         diP1 = new Point(f.diP1.x, f.diP1.y);
     }
 
-
-  public double eval3(double x) {
+    public double eval3(double x) {
         double y, xi, ti, xiP1;
         y = 0.0;
         xi = 0.0;
@@ -66,6 +69,7 @@ class wwfuncio {
         return (y);
     } /*eeval */
 
+
     public void initfunc(int num_values) {
         t = 1;
         m = 0.0;
@@ -82,7 +86,6 @@ class wwfuncio {
         diP1.y = 0.0;
     }
 
-
     public void calcDVOWDNa(StraightLine Li, StraightLine LiP1, Point di, Point diP1, int num_values) {
         double tip;
         Point vi = new Point(0.0, 0.0);
@@ -97,7 +100,6 @@ class wwfuncio {
         oi.x = 0.0;
         oi.y = 0.0;
         this.initfunc(num_values); // el parametre no s'usa per a res !!
-
 
         tip = (di.x + diP1.x) / 2.0;
         vi.x = (di.x + tip) / 2.0;
