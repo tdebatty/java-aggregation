@@ -18,15 +18,6 @@ class wwLwav2 {
         values = new double[LARRAY + 1];
     }
 
-    public wwLwav2(Vector v) {
-        lon = v.size();
-        values = new double[lon + 1];
-        Enumeration p = v.elements();
-        for (int i = 1; p.hasMoreElements(); i++) {
-            values[i] = ((Double) p.nextElement()).doubleValue();
-        }
-    }
-
     public wwLwav2(double[] values) {
         lon = values.length;
         this.values = new double[lon + 1];

@@ -31,10 +31,10 @@ class Wwv2 {
     } /* eowa */
 
 
-    public static double owa(Vector w, Vector a) {
+    public static double owa(double[] w, Vector a) {
         wwLwav2 wn = new wwLwav2(w);
         wwLvav2 an = new wwLvav2(a);
-        return owa(wn, an, w.size());
+        return owa(wn, an, w.length);
     }
 
     public static double wm(wwLwav2 p, wwLvav2 a, int num_values) {
@@ -42,11 +42,11 @@ class Wwv2 {
     } /* ewm */
 
 
-    public static double wm(Vector p, Vector a)
+    public static double wm(double[] p, Vector a)
             throws Exception {
         wwLwav2 pn = new wwLwav2(p);
         wwLvav2 an = new wwLvav2(a);
-        return wm(pn, an, p.size());
+        return wm(pn, an, p.length);
     }
 
     public static double wowa(double[] w, double[] p, Vector a) {
