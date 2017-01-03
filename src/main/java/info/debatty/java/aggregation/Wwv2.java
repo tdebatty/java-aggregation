@@ -5,8 +5,6 @@
  */
 package info.debatty.java.aggregation;
 
-import java.util.Vector;
-
 /**
  * Traduccio a java del fitxer owawm.c per Vicenc Torra Traduccio a C del fitxer
  * owawm.adb per David Nettleton Fitxer original owawm.adb per Vicenc Torra
@@ -24,40 +22,40 @@ import java.util.Vector;
 class Wwv2 {
 
 
-    public static double owa(wwLwav2 w, wwLwav2 a, int num_values) {
-        wwLwav2 b = new wwLwav2(a);
+    public static double owa(Vector w, Vector a, int num_values) {
+        Vector b = new Vector(a);
         b.order(num_values);
         return (b.escProd(w, num_values));
     } /* eowa */
 
 
     public static double owa(double[] w, double[] a) {
-        wwLwav2 wn = new wwLwav2(w);
-        wwLwav2 an = new wwLwav2(a);
+        Vector wn = new Vector(w);
+        Vector an = new Vector(a);
         return owa(wn, an, w.length);
     }
 
-    public static double wm(wwLwav2 p, wwLwav2 a, int num_values) {
+    public static double wm(Vector p, Vector a, int num_values) {
         return (a.escProd(p, num_values));
     } /* ewm */
 
 
     public static double wm(double[] p, double[] a)
             throws Exception {
-        wwLwav2 pn = new wwLwav2(p);
-        wwLwav2 an = new wwLwav2(a);
+        Vector pn = new Vector(p);
+        Vector an = new Vector(a);
         return wm(pn, an, p.length);
     }
 
     public static double wowa(double[] w, double[] p, double[] a) {
-        wwLwav2 wn = new wwLwav2(w);
-        wwLwav2 pn = new wwLwav2(p);
-        wwLwav2 an = new wwLwav2(a);
+        Vector wn = new Vector(w);
+        Vector pn = new Vector(p);
+        Vector an = new Vector(a);
         return wowa(wn, pn, an, w.length);
     }
 
-    public static double wowa(wwLwav2 w, wwLwav2 p, wwLwav2 a, int num_values) {
-        wwLwav2 omega = new wwLwav2(num_values);
+    public static double wowa(Vector w, Vector p, Vector a, int num_values) {
+        Vector omega = new Vector(num_values);
         wwLdf fer = new wwLdf(num_values);
         int i;
         double retorna, acc, accv;

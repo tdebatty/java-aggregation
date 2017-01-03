@@ -24,7 +24,6 @@
 
 package info.debatty.java.aggregation;
 
-import java.util.Vector;
 
 /**
  *
@@ -43,13 +42,4 @@ public class OWA implements AggregatorInterface {
                 weights,
                 values);
     }
-
-    private static Vector arr2Vector(double[] values) {
-        Vector v = new Vector();
-        for (double value : values) {
-            v.add(new Double(value));
-        }
-        return v;
-    }
-
 }
