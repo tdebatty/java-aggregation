@@ -24,7 +24,7 @@ class Wwv2 {
 
     public static double owa(Vector w, Vector a, int num_values) {
         Vector b = new Vector(a);
-        b.order(num_values);
+        b.sort();
         return (b.dotProduct(w));
     } /* eowa */
 

@@ -44,22 +44,23 @@ class Vector {
         return (df);
     }
 
-    public void order(int num_values) {
-        double aV;
-        int i, j;
+    /**
+     * Order the vector in place. Make a copy if you wish to keep the original
+     * vector.
+     * @param num_values
+     */
+    public void sort() {
 
-
-        for (i = 1; i <= num_values; i++) {
-            for (j = i + 1; j <= num_values; j++) {
+        for (int i = 1; i < values.length; i++) {
+            for (int j = i + 1; j < values.length; j++) {
                 if (values[j] > values[i]) {
-                    aV = values[j];
+                    double temp = values[j];
                     values[j] = values[i];
-                    values[i] = aV;
+                    values[i] = temp;
                 }
             }
         }
-        // return(a);
-    } /* eorder */
+    }
 
 
     /**
