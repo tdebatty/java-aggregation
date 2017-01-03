@@ -1,17 +1,9 @@
 package info.debatty.java.aggregation;
 
-import java.util.Vector;
-import java.util.Enumeration;
-
 class wwLwav2 {
 
     double[] values;
     int lon;
-
-    wwLwav2() {
-        lon = 10;
-        values = new double[10 + 1];
-    }
 
     wwLwav2(int LARRAY) {
         lon = LARRAY;
