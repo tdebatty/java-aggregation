@@ -37,22 +37,21 @@ class Vector {
     }
 
 
-    public wwLdf setQ(int num_values) {
+    public wwLdf setQ() {
+
+
         // de vLp se'n necessita un punt de mes perque es va a llo+1
-        Point[] vLp = new Point[num_values + 2];
-        wwLdf df = new wwLdf(num_values + 1); /* es lo que se devuelve */
+        Point[] vLp = new Point[values.length + 1];
+        wwLdf df = new wwLdf(values.length); /* es lo que se devuelve */
 
-        int i;
-        double tempx, llo;
-
-        llo = num_values;
         vLp[1] = new Point(0.0, 0.0);
-        for (i = 2; i <= llo + 1; i++) {
-            tempx = i - 1;
-            vLp[i] = new Point(tempx / llo, values[i - 1] + vLp[i - 1].y);
+        for (int i = 2; i <= values.length; i++) {
+            int tempx = i - 1;
+            vLp[i] = new Point(
+                    1.0 * tempx / (values.length - 1),
+                    values[i - 1] + vLp[i - 1].y);
         }
-        // df.initLdf(num_values);
-        df.ferQ(vLp, num_values);
+        df.ferQ(vLp, values.length - 1);
         return (df);
     }
 
@@ -81,7 +80,6 @@ class Vector {
      * @param other
      */
     public void sort(final Vector other) {
-
 
         for (int i = 1; i < values.length; i++) {
             for (int j = i + 1; j < values.length; j++) {

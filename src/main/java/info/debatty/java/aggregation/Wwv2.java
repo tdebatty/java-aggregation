@@ -62,7 +62,7 @@ class Wwv2 {
 
 
         fer.initLdf(num_values);
-        fer = w.setQ(num_values);
+        fer = w.setQ();
 
 
         a.sort(p);
