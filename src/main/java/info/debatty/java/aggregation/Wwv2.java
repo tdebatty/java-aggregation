@@ -56,7 +56,6 @@ class Wwv2 {
 
     public static double wowa(Vector w, Vector p, Vector a, int num_values) {
         Vector omega = new Vector(num_values);
-        int i;
         double retorna, acc, accv;
 
         wwLdf fer = w.setQ();
@@ -66,7 +65,7 @@ class Wwv2 {
         omega.set(1, fer.eval4(p.get(1), num_values));
         acc = p.get(1);
 
-        for (i = 2; i <= num_values; i++) {
+        for (int i = 2; i <= num_values; i++) {
             accv = acc;
             acc = acc + p.get(i);
             omega.set(
