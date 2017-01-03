@@ -28,17 +28,15 @@ class Vector {
         }
     }
 
-    public double get(int position) {
+    public double get(final int position) {
         return values[position];
     }
 
-    public void set(int position, double value) {
+    public void set(final int position, final double value) {
         values[position] = value;
     }
 
-
     public wwLdf setQ() {
-
 
         // de vLp se'n necessita un punt de mes perque es va a llo+1
         Point[] vLp = new Point[values.length + 1];

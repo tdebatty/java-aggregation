@@ -56,13 +56,10 @@ class Wwv2 {
 
     public static double wowa(Vector w, Vector p, Vector a, int num_values) {
         Vector omega = new Vector(num_values);
-        wwLdf fer = new wwLdf(num_values);
         int i;
         double retorna, acc, accv;
 
-
-        fer.initLdf(num_values);
-        fer = w.setQ();
+        wwLdf fer = w.setQ();
 
 
         a.sort(p);

@@ -8,10 +8,31 @@ package info.debatty.java.aggregation;
 class wwLdf {
 
     Point[] d;
-    wwLfn f;
+    Functions f;
 
     public wwLdf(int num_values) {
-        this.initLdf(num_values);
+        // Ldf ff;
+        // la funcio eval4 accedeix al d[punt+1]
+        d = new Point[num_values + 2];
+        f = new Functions(num_values + 1);
+
+        for (int i = 1; i <= num_values; i++) {
+            // System.out.println ("Num_values:"+num_values+"i:"+i);
+            d[i] = new Point(0.0, 0.0);
+            f.funcioi[i].t = 1;
+            f.funcioi[i].m = 0.0;
+            f.funcioi[i].n = 0.0;
+            f.funcioi[i].di.x = 0.0;
+            f.funcioi[i].vi.x = 0.0;
+            f.funcioi[i].oi.x = 0.0;
+            f.funcioi[i].wi.x = 0.0;
+            f.funcioi[i].diP1.x = 0.0;
+            f.funcioi[i].di.y = 0.0;
+            f.funcioi[i].vi.y = 0.0;
+            f.funcioi[i].oi.y = 0.0;
+            f.funcioi[i].wi.y = 0.0;
+            f.funcioi[i].diP1.y = 0.0;
+        }
     }
 
     void put(int num_values) {
@@ -84,34 +105,6 @@ class wwLdf {
     } /* eeval */
 
 
-    public void initLdf(int num_values) {
-        int i;
-        // Ldf ff;
-        // la funcio eval4 accedeix al d[punt+1]
-        d = new Point[num_values + 2];
-        f = new wwLfn(num_values + 1);
-
-        for (i = 1; i <= num_values; i++) {
-            // System.out.println ("Num_values:"+num_values+"i:"+i);
-            d[i] = new Point(0.0, 0.0);
-            f.funcioi[i].t = 1;
-            f.funcioi[i].m = 0.0;
-            f.funcioi[i].n = 0.0;
-            f.funcioi[i].di.x = 0.0;
-            f.funcioi[i].vi.x = 0.0;
-            f.funcioi[i].oi.x = 0.0;
-            f.funcioi[i].wi.x = 0.0;
-            f.funcioi[i].diP1.x = 0.0;
-            f.funcioi[i].di.y = 0.0;
-            f.funcioi[i].vi.y = 0.0;
-            f.funcioi[i].oi.y = 0.0;
-            f.funcioi[i].wi.y = 0.0;
-            f.funcioi[i].diP1.y = 0.0;
-        }
-        //d[num_values].x = 0.0;
-        //d[num_values].y = 0.0;
-    } /* initLdf */
-
 
     /**
      * **********************************************************************
@@ -128,7 +121,7 @@ class wwLdf {
         d = new Point[num_values + 2];
         d[num_values + 1] = new Point(0.0, 0.0);
 
-        f = new wwLfn(num_values + 1);
+        f = new Functions(num_values + 1);
 
         wwLr L = new wwLr(num_values + 1); //******* Darrera modificacio
         //Ldf f2;
