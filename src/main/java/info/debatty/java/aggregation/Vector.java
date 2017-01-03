@@ -100,21 +100,19 @@ class Vector {
     } /* eorderA */
 
 
-    /**
-     * ************************************************************
-     */
-    /* 'escProd' calculates the escalar product of the two vectors */
-    /**
-     * ************************************************************
-     */
-    public double escProd(Vector w, int num_values) {
-        double r;
-        int i;
 
-        for (i = 1, r = 0.0; i <= num_values; i++) {
-            r = r + (w.values[i] * values[i]);
-            /* s'ha de forcar una cohercio T[w]=Unit <> T[a]=value */
+    /**
+     * Compute dot product of vectors.
+     * @param other
+     * @return
+     */
+    public double dotProduct(final Vector other) {
+        double agg = 0;
+
+        for (int i = 0; i < values.length; i++) {
+            agg += other.values[i] * values[i];
+
         }
-        return (r);
+        return agg;
     }
 }

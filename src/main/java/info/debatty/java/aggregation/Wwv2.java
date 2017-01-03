@@ -25,7 +25,7 @@ class Wwv2 {
     public static double owa(Vector w, Vector a, int num_values) {
         Vector b = new Vector(a);
         b.order(num_values);
-        return (b.escProd(w, num_values));
+        return (b.dotProduct(w));
     } /* eowa */
 
 
@@ -36,7 +36,7 @@ class Wwv2 {
     }
 
     public static double wm(Vector p, Vector a, int num_values) {
-        return (a.escProd(p, num_values));
+        return (a.dotProduct(p));
     } /* ewm */
 
 
@@ -77,7 +77,7 @@ class Wwv2 {
 
         }
 
-        retorna = a.escProd(omega, num_values);
+        retorna = a.dotProduct(omega);
         return (retorna);
     } /* ewowa */
 }
