@@ -39,74 +39,25 @@ class wwLdf {
         }
     }
 
-    void put(int num_values) {
-        int i;
-
-        for (i = 1; i <= num_values; i++) {
-            System.out.println(i + ": p=(" + d[i].x + "," + d[i].y + ")");
-            if (functions[i].t == 1) {
-                System.out.println("  y=" + functions[i].m + "*x+" + functions[i].n);
-            } else {
-                System.out.println(i + "DOUBLE BERSTEIN:");
-                System.out.println(functions[i].di.x + ":" + functions[i].di.y);
-                System.out.println(functions[i].vi.x + ":" + functions[i].di.y);
-                System.out.println(functions[i].oi.x + ":" + functions[i].di.y);
-                System.out.println(functions[i].wi.x + ":" + functions[i].di.y);
-                System.out.println(functions[i].diP1.x + ":" + functions[i].di.y);
-            }
-        }
-        System.out.print((num_values + 1) + ": p=(" + d[num_values + 1].x + ",");
-        System.out.println(d[num_values + 1].y + ")");
-    } /* eput */
-
-
     public double eval4(double x, int num_values) {
-        int last, i;
-        boolean trobat;
-        double y;
 
-        last = 0;
-        trobat = false;
-        i = 0;
-        y = 0.0;
-
-        //trobat = false; i=1;
-        for (trobat = false, i = 1; (!trobat) && (i <= num_values); i++) {
+        for (int i = 1; i <= num_values; i++) {
             if ((wwbasics.leq(d[i].x, x))
                     && (wwbasics.leq(x, d[i + 1].x))) {
-                trobat = true;
-                y = (functions[i]).eval3(x);
+                return functions[i].eval3(x);
             }
         }
 
-        if (!trobat) {
-            if (wwbasics.leq(x, d[1].x)) {
-                y = 0.0;
-                trobat = true;
-            }
-            if ((!trobat)
-                    && (wwbasics.leq(d[num_values + 1].x, x))) {
-                y = 1.0;
-                trobat = true;
-            }
-            if (!trobat) {
-                System.out.println("EVLdNO TROBAT. x:=" + x);
-                System.out.println("MINIM:" + d[1].x);
-                System.out.println("MAXIM:" + d[num_values].x);
-                System.out.print("LongArray (pensa que a aixo se li suma 1!!):");
-                System.out.println(":" + num_values);
-                System.out.println("FUNCIO ");
-                this.put(num_values);
-                if (Double.isNaN(x)) {
-                    throw new NullPointerException("wwLdeval4: x isNaN");
-                } else {
-                    throw new NullPointerException("wwLdeval4: x no Trobat");
-                }
-                /* raise bignum; */
-            }
+        if (wwbasics.leq(x, d[1].x)) {
+            return 0.0;
         }
-        return (y);
-    } /* eeval */
+
+        if (wwbasics.leq(d[num_values + 1].x, x)) {
+            return 1.0;
+        }
+
+        throw  new ArithmeticException("Value not found!");
+    }
 
 
 

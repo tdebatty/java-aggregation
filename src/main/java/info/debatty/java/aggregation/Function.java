@@ -48,18 +48,9 @@ class Function {
                 y = Point.Bernstein(oi, wi, diP1, x);
             }
         }
-        if (y > 2.0) {
-            System.out.println("\nBIG ERROR");
-            System.out.println("R" + y + "," + m);
-            System.out.println(" " + x + "," + n);
-            System.out.println("B" + xi + "," + ti + "," + xiP1);
-            System.out.println("C" + di.x + "," + vi.x + "," + oi.x);
-            System.out.println(" " + di.y + "," + vi.y + "," + oi.y);
-            System.out.println("D" + oi.x + "," + wi.x + "," + diP1.x);
-            System.out.println(" " + oi.y + "," + wi.y + "," + diP1.y);
-            throw new NullPointerException("wwfuncio.eval3");
-            /* raise bigNum; */
-        }
+
+        assert y <= 2.0;
+
         if (y < 0.0) {
             y = 0.0;
         }
@@ -204,6 +195,7 @@ class Function {
 
         } else if (Li.a == LiP1.a) {
             this.calcDVOWDNa(Li, LiP1, Di, DiP1, num_values);
+            
         } else {
             this.calcDVOWDa(Li, LiP1, Di, DiP1, num_values);
         }
