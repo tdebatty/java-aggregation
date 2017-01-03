@@ -3,16 +3,13 @@ package info.debatty.java.aggregation;
 class Vector {
 
     double[] values;
-    int lon;
 
     Vector(int LARRAY) {
-        lon = LARRAY;
         values = new double[LARRAY + 1];
     }
 
     public Vector(double[] values) {
-        lon = values.length;
-        this.values = new double[lon + 1];
+        this.values = new double[values.length + 1];
 
         // values[0..] are copied to this.values[1..] :-(
         for (int i = 1; i <= values.length; i++) {
@@ -21,19 +18,12 @@ class Vector {
     }
 
     Vector(Vector a) {
-        lon = a.lon;
-        values = new double[a.lon + 1];
-        for (int i = 0; i <= lon; i++) {
+        values = new double[a.values.length];
+        for (int i = 0; i < values.length; i++) {
             values[i] = a.values[i];
         }
     }
 
-    void escriu() {
-        for (int i = 1; i <= lon; i++) {
-            System.out.print(values[i] + " ");
-        }
-        System.out.print("\n");
-    }
 
     public wwLdf setQ(int num_values) {
         // de vLp se'n necessita un punt de mes perque es va a llo+1
