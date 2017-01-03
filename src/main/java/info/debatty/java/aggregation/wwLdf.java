@@ -42,17 +42,16 @@ class wwLdf {
     public double eval4(double x, int num_values) {
 
         for (int i = 1; i <= num_values; i++) {
-            if ((wwbasics.leq(d[i].x, x))
-                    && (wwbasics.leq(x, d[i + 1].x))) {
+            if ((d[i].x <= x) && (x <= d[i + 1].x)) {
                 return functions[i].eval3(x);
             }
         }
 
-        if (wwbasics.leq(x, d[1].x)) {
+        if (x <= d[1].x) {
             return 0.0;
         }
 
-        if (wwbasics.leq(d[num_values + 1].x, x)) {
+        if (d[num_values + 1].x <= x) {
             return 1.0;
         }
 

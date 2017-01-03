@@ -153,8 +153,8 @@ class Function {
 
         ti = (Li.b - LiP1.b) / (LiP1.a - Li.a);
         zi = (LiP1.a * Li.b - Li.a * LiP1.b) / (LiP1.a - Li.a);
-        if ((wwbasics.leq(di.x, ti)) && (wwbasics.leq(ti, diP1.x))
-                && (wwbasics.leq(di.y, zi)) && (wwbasics.leq(zi, diP1.y))) {
+        if ((di.x <= ti) && (ti <= diP1.x)
+                && (di.y <= zi) && (zi <= diP1.y)) {
             tip = ti;
         } else {
             tip = (di.x + diP1.x) / 2.0;
@@ -195,7 +195,7 @@ class Function {
 
         } else if (Li.a == LiP1.a) {
             this.calcDVOWDNa(Li, LiP1, Di, DiP1, num_values);
-            
+
         } else {
             this.calcDVOWDa(Li, LiP1, Di, DiP1, num_values);
         }
