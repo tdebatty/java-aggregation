@@ -44,7 +44,7 @@ public class WOWA implements AggregatorInterface {
         return Wwv2.wowa(
                 weights,
                 ordered_weights,
-                arr2Vector(values));
+                values);
     }
 
     private static Vector arr2Vector(double[] values) {

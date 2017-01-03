@@ -5,40 +5,40 @@ import java.util.Enumeration;
 
 class wwLvav2 {
 
-    double valuei[];
+    double[] values;
     int lon;
     static boolean DEBON = false;
 
     wwLvav2() {
         lon = 10;
-        valuei = new double[10 + 1];
+        values = new double[10 + 1];
     }
 
     wwLvav2(int LARRAY) {
         lon = LARRAY;
-        valuei = new double[LARRAY + 1];
+        values = new double[LARRAY + 1];
     }
 
     wwLvav2(wwLvav2 a) {
         lon = a.lon;
-        valuei = new double[a.lon + 1];
+        values = new double[a.lon + 1];
         for (int i = 0; i <= lon; i++) {
-            valuei[i] = a.valuei[i];
+            values[i] = a.values[i];
         }
     }
 
     public wwLvav2(Vector v) {
         lon = v.size();
-        valuei = new double[lon + 1];
+        values = new double[lon + 1];
         Enumeration p = v.elements();
         for (int i = 1; p.hasMoreElements(); i++) {
-            valuei[i] = ((Double) p.nextElement()).doubleValue();
+            values[i] = ((Double) p.nextElement()).doubleValue();
         }
     }
 
     void escriu() {
         for (int i = 1; i <= lon; i++) {
-            System.out.print(valuei[i] + " ");
+            System.out.print(values[i] + " ");
         }
         System.out.print("\n");
     }
@@ -47,7 +47,7 @@ class wwLvav2 {
         int i;
 
         for (i = 1; i <= num_values; i++) {
-            System.out.print(" " + valuei[i]);
+            System.out.print(" " + values[i]);
         }
     } /* eput2 */
 
@@ -69,10 +69,10 @@ class wwLvav2 {
 
         for (i = 1; i <= num_values; i++) {
             for (j = i + 1; j <= num_values; j++) {
-                if (valuei[j] > valuei[i]) {
-                    aV = valuei[j];
-                    valuei[j] = valuei[i];
-                    valuei[i] = aV;
+                if (values[j] > values[i]) {
+                    aV = values[j];
+                    values[j] = values[i];
+                    values[i] = aV;
                 }
             }
         }
@@ -93,13 +93,13 @@ class wwLvav2 {
 
         for (i = 1; i <= num_values; i++) {
             for (j = i + 1; j <= num_values; j++) {
-                if (valuei[j] > valuei[i]) {
+                if (values[j] > values[i]) {
                     aW = w.values[j];
                     w.values[j] = w.values[i];
                     w.values[i] = aW;
-                    aV = valuei[j];
-                    valuei[j] = valuei[i];
-                    valuei[i] = aV;
+                    aV = values[j];
+                    values[j] = values[i];
+                    values[i] = aV;
                 }
             } /* efor2 */
 
@@ -123,7 +123,7 @@ class wwLvav2 {
             System.out.println("escProd\n");
         }
         for (i = 1, r = 0.0; i <= num_values; i++) {
-            r = r + (w.values[i] * valuei[i]);
+            r = r + (w.values[i] * values[i]);
             /* s'ha de forcar una cohercio T[w]=Unit <> T[a]=value */
         }
         return (r);

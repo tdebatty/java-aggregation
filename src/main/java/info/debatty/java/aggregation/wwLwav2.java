@@ -20,6 +20,14 @@ class wwLwav2 {
         }
     }
 
+    wwLwav2(wwLwav2 a) {
+        lon = a.lon;
+        values = new double[a.lon + 1];
+        for (int i = 0; i <= lon; i++) {
+            values[i] = a.values[i];
+        }
+    }
+
     void escriu() {
         for (int i = 1; i <= lon; i++) {
             System.out.print(values[i] + " ");
@@ -44,5 +52,69 @@ class wwLwav2 {
         // df.initLdf(num_values);
         df.ferQ(vLp, num_values);
         return (df);
+    }
+
+    public void order(int num_values) {
+        double aV;
+        int i, j;
+
+
+        for (i = 1; i <= num_values; i++) {
+            for (j = i + 1; j <= num_values; j++) {
+                if (values[j] > values[i]) {
+                    aV = values[j];
+                    values[j] = values[i];
+                    values[i] = aV;
+                }
+            }
+        }
+        // return(a);
+    } /* eorder */
+
+
+    /**
+     * ****************************************************
+     */
+    /* 'orderA' orders the vectors according to the values */
+    /**
+     * ****************************************************
+     */
+    public void orderA(wwLwav2 w, int num_values) {
+        double aW, aV;
+        int i, j;
+
+        for (i = 1; i <= num_values; i++) {
+            for (j = i + 1; j <= num_values; j++) {
+                if (values[j] > values[i]) {
+                    aW = w.values[j];
+                    w.values[j] = w.values[i];
+                    w.values[i] = aW;
+                    aV = values[j];
+                    values[j] = values[i];
+                    values[i] = aV;
+                }
+            } /* efor2 */
+
+        } /* efor1 */
+
+    } /* eorderA */
+
+
+    /**
+     * ************************************************************
+     */
+    /* 'escProd' calculates the escalar product of the two vectors */
+    /**
+     * ************************************************************
+     */
+    public double escProd(wwLwav2 w, int num_values) {
+        double r;
+        int i;
+
+        for (i = 1, r = 0.0; i <= num_values; i++) {
+            r = r + (w.values[i] * values[i]);
+            /* s'ha de forcar una cohercio T[w]=Unit <> T[a]=value */
+        }
+        return (r);
     }
 }

@@ -24,39 +24,39 @@ import java.util.Vector;
 class Wwv2 {
 
 
-    public static double owa(wwLwav2 w, wwLvav2 a, int num_values) {
-        wwLvav2 b = new wwLvav2(a);
+    public static double owa(wwLwav2 w, wwLwav2 a, int num_values) {
+        wwLwav2 b = new wwLwav2(a);
         b.order(num_values);
         return (b.escProd(w, num_values));
     } /* eowa */
 
 
-    public static double owa(double[] w, Vector a) {
+    public static double owa(double[] w, double[] a) {
         wwLwav2 wn = new wwLwav2(w);
-        wwLvav2 an = new wwLvav2(a);
+        wwLwav2 an = new wwLwav2(a);
         return owa(wn, an, w.length);
     }
 
-    public static double wm(wwLwav2 p, wwLvav2 a, int num_values) {
+    public static double wm(wwLwav2 p, wwLwav2 a, int num_values) {
         return (a.escProd(p, num_values));
     } /* ewm */
 
 
-    public static double wm(double[] p, Vector a)
+    public static double wm(double[] p, double[] a)
             throws Exception {
         wwLwav2 pn = new wwLwav2(p);
-        wwLvav2 an = new wwLvav2(a);
+        wwLwav2 an = new wwLwav2(a);
         return wm(pn, an, p.length);
     }
 
-    public static double wowa(double[] w, double[] p, Vector a) {
+    public static double wowa(double[] w, double[] p, double[] a) {
         wwLwav2 wn = new wwLwav2(w);
         wwLwav2 pn = new wwLwav2(p);
-        wwLvav2 an = new wwLvav2(a);
+        wwLwav2 an = new wwLwav2(a);
         return wowa(wn, pn, an, w.length);
     }
 
-    public static double wowa(wwLwav2 w, wwLwav2 p, wwLvav2 a, int num_values) {
+    public static double wowa(wwLwav2 w, wwLwav2 p, wwLwav2 a, int num_values) {
         wwLwav2 omega = new wwLwav2(num_values);
         wwLdf fer = new wwLdf(num_values);
         int i;

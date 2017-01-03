@@ -41,7 +41,7 @@ public class OWA implements AggregatorInterface {
     public double aggregate(double[] values) {
         return Wwv2.owa(
                 weights,
-                arr2Vector(values));
+                values);
     }
 
     private static Vector arr2Vector(double[] values) {
