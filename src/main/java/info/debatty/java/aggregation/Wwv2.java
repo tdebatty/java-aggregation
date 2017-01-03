@@ -65,15 +65,16 @@ class Wwv2 {
         fer = w.setQ(num_values);
 
 
-        a.orderA(p, num_values);
-        omega.values[1] = fer.eval4(p.values[1], num_values);
-        acc = p.values[1];
+        a.sort(p);
+        omega.set(1, fer.eval4(p.get(1), num_values));
+        acc = p.get(1);
 
         for (i = 2; i <= num_values; i++) {
             accv = acc;
-            acc = acc + p.values[i];
-            omega.values[i] = fer.eval4(acc, num_values)
-                    - fer.eval4(accv, num_values);
+            acc = acc + p.get(i);
+            omega.set(
+                    i,
+                    fer.eval4(acc, num_values) - fer.eval4(accv, num_values));
 
         }
 

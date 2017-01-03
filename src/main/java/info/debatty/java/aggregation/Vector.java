@@ -1,11 +1,15 @@
 package info.debatty.java.aggregation;
 
+/**
+ *
+ * @author Thibault Debatty
+ */
 class Vector {
 
-    double[] values;
+    private final double[] values;
 
-    Vector(int LARRAY) {
-        values = new double[LARRAY + 1];
+    Vector(int size) {
+        values = new double[size + 1];
     }
 
     public Vector(double[] values) {
@@ -22,6 +26,14 @@ class Vector {
         for (int i = 0; i < values.length; i++) {
             values[i] = a.values[i];
         }
+    }
+
+    public double get(int position) {
+        return values[position];
+    }
+
+    public void set(int position, double value) {
+        values[position] = value;
     }
 
 
@@ -63,32 +75,29 @@ class Vector {
     }
 
 
-    /**
-     * ****************************************************
-     */
-    /* 'orderA' orders the vectors according to the values */
-    /**
-     * ****************************************************
-     */
-    public void orderA(Vector w, int num_values) {
-        double aW, aV;
-        int i, j;
 
-        for (i = 1; i <= num_values; i++) {
-            for (j = i + 1; j <= num_values; j++) {
+    /**
+     * Sort both vectors according to the values in this vector.
+     * @param other
+     */
+    public void sort(final Vector other) {
+
+
+        for (int i = 1; i < values.length; i++) {
+            for (int j = i + 1; j < values.length; j++) {
                 if (values[j] > values[i]) {
-                    aW = w.values[j];
-                    w.values[j] = w.values[i];
-                    w.values[i] = aW;
-                    aV = values[j];
+
+                    double temp = other.values[j];
+                    other.values[j] = other.values[i];
+                    other.values[i] = temp;
+
+                    double temp2 = values[j];
                     values[j] = values[i];
-                    values[i] = aV;
+                    values[i] = temp2;
                 }
-            } /* efor2 */
-
-        } /* efor1 */
-
-    } /* eorderA */
+            }
+        }
+    }
 
 
 
