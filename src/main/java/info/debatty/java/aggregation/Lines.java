@@ -33,30 +33,20 @@ class Lines {
 
     static double infinit = Double.MAX_VALUE;
 
-    Lines(int size) {
-        lines = new StraightLine[size + 1];
-        for (int i = 1; i <= size; i++) {
+    Lines(Point[] points) {
+
+        lines = new StraightLine[points.length];
+        for (int i = 1; i < points.length; i++) {
             lines[i] = new StraightLine(0, 0);
         }
-    }
 
-    public static void setMcAllister() {
-        McAllister = true;
-    }
+        int num_values = points.length - 2;
 
-    /**
-     * *********************************************************************
-     */
-    /* calculaLi fa servir les funcions:  calculaMi, calculaSi   		*/
-    /**
-     * *********************************************************************
-     */
-    public void calculaLi(Point[] points, int num_values) {
-        double[] s = new double[num_values + 2];
-        double[] m = new double[num_values + 2];
+        double[] s = new double[points.length];
+        double[] m = new double[points.length];
 
         int i = 0;
-        int N = num_values + 1; //N es la darrera posicio de d, i d es num_values+1
+        int N = points.length - 1; //N es la darrera posicio de d, i d es num_values+1
 
         for (i = 2; i <= N; i++) {
             s[i] = Point.calculaSi(points[i], points[i - 1]);
@@ -104,5 +94,9 @@ class Lines {
             this.lines[i].a = m[i];
             this.lines[i].b = points[i].y - m[i] * points[i].x;
         }
+    }
+
+    public static void setMcAllister() {
+        McAllister = true;
     }
 }
