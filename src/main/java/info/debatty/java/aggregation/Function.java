@@ -32,18 +32,12 @@ class Function {
     }
 
     public double eval(double x) {
-        double y, xi, ti, xiP1;
-        y = 0.0;
-        xi = 0.0;
-        ti = 0.0;
-        xiP1 = 0.0;
+        double y;
+
         if (type == 1) {
             y = m * x + n;
         } else {
-            xi = di.x;
-            ti = oi.x;
-            xiP1 = diP1.x;
-            if ((xi <= x) && (x <= ti)) {
+            if ((di.x <= x) && (x <= oi.x)) {
                 y = Point.Bernstein(di, vi, oi, x);
             } else /* x in [ti, xiP1] */ {
                 y = Point.Bernstein(oi, wi, diP1, x);

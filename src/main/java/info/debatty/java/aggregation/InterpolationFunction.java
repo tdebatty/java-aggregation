@@ -7,41 +7,36 @@ package info.debatty.java.aggregation;
 
 class InterpolationFunction {
 
-    Point[] points;
-    Function[] functions;
+    private final Point[] points;
+    private final Function[] functions;
 
-    public InterpolationFunction(final Point[] points) {
+    InterpolationFunction(final Point[] points) {
 
-        int num_values = points.length - 2;
+        int size = points.length;
 
-        this.points = new Point[num_values + 2];
-        this.functions = new Function[num_values + 2];
+        this.points = new Point[size];
+        this.functions = new Function[size];
 
-        for (int i = 0; i < num_values + 2; i++) {
+        for (int i = 0; i < size; i++) {
             this.functions[i] = new Function();
             this.points[i] = new Point(0.0, 0.0);
         }
 
-        wwLr L = new wwLr(num_values + 1); //******* Darrera modificacio
-        //Ldf f2;
-        // Aixo de sota ho trec.
-        // wwLp dd = new wwLp (num_values);
+        wwLr L = new wwLr(size - 1);
+        L.calculaLi(points, size - 2);
+
         Function tempFun = new Function();
-
-        L.calculaLi(points, num_values);
-
-        for (int i = 1; i <= num_values; i++) {
+        for (int i = 1; i < size - 1; i++) {
             this.points[i].x = points[i].x;
             this.points[i].y = points[i].y;
 
             tempFun.calculaDVOWD(L.rectai[i], L.rectai[i + 1], points[i],
-                    points[i + 1], num_values);
+                    points[i + 1], size - 2);
             this.functions[i].copia(tempFun);
         }
-        this.points[num_values + 1].x = points[num_values + 1].x;
-        this.points[num_values + 1].y = points[num_values + 1].y;
-        //return (f2);
-    } /* eferQ */
+        this.points[size - 1].x = points[size - 1].x;
+        this.points[size - 1].y = points[size - 1].y;
+    }
 
     public double eval(double x, int num_values) {
 
