@@ -31,8 +31,7 @@ class InterpolationFunction {
                     lines.lines[i],
                     lines.lines[i + 1],
                     points[i],
-                    points[i + 1],
-                    size - 2);
+                    points[i + 1]);
         }
         this.points[size - 1] = new Point(points[size - 1]);
     }

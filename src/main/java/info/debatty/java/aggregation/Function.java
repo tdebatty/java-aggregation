@@ -19,15 +19,21 @@ final class Function {
     Function() {
     }
 
-    public void copia(Function f) {
-        type = f.type;
-        m = f.m;
-        n = f.n;
-        di = new Point(f.di.x, f.di.y);
-        vi = new Point(f.vi.x, f.vi.y);
-        oi = new Point(f.oi.x, f.oi.y);
-        wi = new Point(f.wi.x, f.wi.y);
-        diP1 = new Point(f.diP1.x, f.diP1.y);
+    public Function (StraightLine Li, StraightLine LiP1, Point Di,
+            Point DiP1) {
+
+
+        if ((Li.a == LiP1.a) && (Li.b == LiP1.b)) {
+            this.type = 1;
+            this.m = Li.a;
+            this.n = Li.b;
+
+        } else if (Li.a == LiP1.a) {
+            this.calcDVOWDNa(Li, LiP1, Di, DiP1);
+
+        } else {
+            this.calcDVOWDa(Li, LiP1, Di, DiP1);
+        }
     }
 
     public double eval(double x) {
@@ -54,7 +60,7 @@ final class Function {
         return (y);
     } /*eeval */
 
-    public void calcDVOWDNa(StraightLine Li, StraightLine LiP1, Point di, Point diP1, int num_values) {
+    public void calcDVOWDNa(StraightLine Li, StraightLine LiP1, Point di, Point diP1) {
 
 
         double tip = (di.x + diP1.x) / 2.0;
@@ -90,7 +96,7 @@ final class Function {
 
 
     public void calcDVOWDa(StraightLine Li, StraightLine LiP1, Point di,
-            Point diP1, int num_values) {
+            Point diP1) {
 
         double tip;
         double ti = (Li.b - LiP1.b) / (LiP1.a - Li.a);
@@ -120,21 +126,6 @@ final class Function {
 
     }
 
-    public Function (StraightLine Li, StraightLine LiP1, Point Di,
-            Point DiP1, int num_values) {
 
-
-        if ((Li.a == LiP1.a) && (Li.b == LiP1.b)) {
-            this.type = 1;
-            this.m = Li.a;
-            this.n = Li.b;
-
-        } else if (Li.a == LiP1.a) {
-            this.calcDVOWDNa(Li, LiP1, Di, DiP1, num_values);
-
-        } else {
-            this.calcDVOWDa(Li, LiP1, Di, DiP1, num_values);
-        }
-    }
 
 }
