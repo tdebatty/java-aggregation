@@ -10,9 +10,9 @@ class Point {
     double x = 0.0;
     double y = 0.0;
 
-    Point(double a, double b) {
-        x = a;
-        y = b;
+    Point(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     Point() {
@@ -27,37 +27,22 @@ class Point {
      * ***********************************************************
      */
     static double Bernstein(Point di, Point wi, Point oi, double x) {
-        double y, xi, mi, b, ti, mbi;
 
-        xi = di.x;
-        mi = di.y;
-        b = wi.y;
-        ti = oi.x;
-        mbi = oi.y;
-
-        // Check so as not to divide by zero
-        if (((ti - xi) * (ti - xi)) == 0.0) {
-            double epsilon = 0.000001;
-            if (Math.abs((ti - x) * (xi - x)) < epsilon) {
-                y = (di.y + oi.y) / 2.0;
-            } else {
-                System.out.println("\nDivisio per zero!");
-                System.out.println("Aqui hauria de ser di.x = wi.x = oi.x =x");
-                System.out.println("di.x, wi.x, oi.x, x:"
-                        + di.x + "," + wi.x + "," + oi.x + "-->" + x);
-                System.out.println("di.y, wi.y, oi.y:"
-                        + di.y + "," + wi.y + "," + oi.y + "--> ??");
-                throw new NullPointerException("wwpunt.Bernstein");
-            }
-        }
+        double xi = di.x;
+        double mi = di.y;
+        double b = wi.y;
+        double ti = oi.x;
+        double mbi = oi.y;
 
         if (ti == xi) {
-            y = mi;
-        } else {
-            y = mi * (ti - x) * (ti - x) + 2.0 * b * (x - xi) * (ti - x);
-            y = y + mbi * (x - xi) * (x - xi);
-            y = y / ((ti - xi) * (ti - xi));
+            return mi;
         }
+
+
+        double y = mi * (ti - x) * (ti - x) + 2.0 * b * (x - xi) * (ti - x);
+        y = y + mbi * (x - xi) * (x - xi);
+        y = y / ((ti - xi) * (ti - xi));
+
         return (y);
     } /* eBernstein */
 
