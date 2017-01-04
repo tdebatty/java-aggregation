@@ -40,7 +40,6 @@ class Lines {
             lines[i] = new StraightLine(0, 0);
         }
 
-        int num_values = points.length - 2;
 
         double[] s = new double[points.length];
         double[] m = new double[points.length];
