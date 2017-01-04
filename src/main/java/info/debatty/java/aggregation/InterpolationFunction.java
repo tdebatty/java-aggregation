@@ -21,15 +21,15 @@ class InterpolationFunction {
         this.points[0] = new Point();
         this.functions[size - 1] = new Function();
 
-        wwLr L = new wwLr(size - 1);
-        L.calculaLi(points, size - 2);
+        Lines lines = new Lines(size - 1);
+        lines.calculaLi(points, size - 2);
 
         for (int i = 1; i < size - 1; i++) {
             this.points[i] = new Point(points[i]);
 
             this.functions[i] = new Function(
-                    L.rectai[i],
-                    L.rectai[i + 1],
+                    lines.lines[i],
+                    lines.lines[i + 1],
                     points[i],
                     points[i + 1],
                     size - 2);

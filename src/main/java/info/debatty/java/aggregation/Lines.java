@@ -25,10 +25,9 @@ package info.debatty.java.aggregation;
 
 //import ww.wwrecta;
 //import ww.wwLf;
-class wwLr {
+class Lines {
 
-    int lon;
-    StraightLine[] rectai;
+    StraightLine[] lines;
 
     static boolean McAllister = false;
     // false = Modificacio meva C & O
@@ -36,11 +35,10 @@ class wwLr {
 
     static double infinit = Double.MAX_VALUE;
 
-    wwLr(int LARRAY) {
-        lon = LARRAY;
-        rectai = new StraightLine[LARRAY + 1];
-        for (int i = 1; i <= LARRAY; i++) {
-            rectai[i] = new StraightLine(0, 0);
+    Lines(int size) {
+        lines = new StraightLine[size + 1];
+        for (int i = 1; i <= size; i++) {
+            lines[i] = new StraightLine(0, 0);
         }
     }
 
@@ -115,8 +113,8 @@ class wwLr {
             }
         }
         for (i = 1; i <= N; i++) {
-            this.rectai[i].a = m.long_float[i];
-            this.rectai[i].b = d[i].y - m.long_float[i] * d[i].x;
+            this.lines[i].a = m.long_float[i];
+            this.lines[i].b = d[i].y - m.long_float[i] * d[i].x;
             /* si m[i] = infinit */
         } /* efor */
         //return(L);
