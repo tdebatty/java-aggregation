@@ -6,18 +6,17 @@ package info.debatty.java.aggregation;
  */
 class Function {
 
-    int type;             /* 1: recta, 2: dobleBernstein */
+    int type = 1;             /* 1: recta, 2: dobleBernstein */
 
     double m = 0;
     double n = 0;
-    Point di, vi, oi, wi, diP1;
+    Point di = new Point();
+    Point vi = new Point();
+    Point oi = new Point();
+    Point wi = new Point();
+    Point diP1 = new Point();
 
     Function() {
-        di = new Point();
-        vi = new Point();
-        oi = new Point();
-        wi = new Point();
-        diP1 = new Point();
     }
 
     public void copia(Function f) {
@@ -178,10 +177,9 @@ class Function {
 
     }
 
-    public void calculaDVOWD(StraightLine Li, StraightLine LiP1, Point Di,
+    public Function (StraightLine Li, StraightLine LiP1, Point Di,
             Point DiP1, int num_values) {
-        //wwfuncio f;
-        this.initfunc(num_values);
+
 
         if ((Li.a == LiP1.a) && (Li.b == LiP1.b)) {
             this.type = 1;

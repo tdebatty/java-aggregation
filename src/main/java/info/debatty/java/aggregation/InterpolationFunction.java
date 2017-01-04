@@ -30,9 +30,8 @@ class InterpolationFunction {
             this.points[i].x = points[i].x;
             this.points[i].y = points[i].y;
 
-            tempFun.calculaDVOWD(L.rectai[i], L.rectai[i + 1], points[i],
+            this.functions[i] = new Function(L.rectai[i], L.rectai[i + 1], points[i],
                     points[i + 1], size - 2);
-            this.functions[i].copia(tempFun);
         }
         this.points[size - 1].x = points[size - 1].x;
         this.points[size - 1].y = points[size - 1].y;
