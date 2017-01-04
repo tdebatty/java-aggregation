@@ -35,13 +35,13 @@ class Vector {
 
     public InterpolationFunction getInterpolationFunction() {
 
-        // Point[] is used from position 1 (instead of 0) :(
-        Point[] points = new Point[values.length + 2];
-        points[1] = new Point(0.0, 0.0);
-        for (int i = 2; i <= values.length + 1; i++) {
+        // points now starts at 0
+        Point[] points = new Point[values.length + 1];
+        points[0] = new Point();
+        for (int i = 1; i <= values.length; i++) {
             points[i] = new Point(
-                    1.0 * (i - 1) / (values.length),
-                    values[i - 2] + points[i - 1].y);
+                    1.0 * (i) / (values.length),
+                    values[i - 1] + points[i - 1].y);
         }
 
         return new InterpolationFunction(points);

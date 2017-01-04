@@ -12,27 +12,28 @@ class InterpolationFunction {
 
     InterpolationFunction(final Point[] points) {
 
-        int size = points.length;
+        int size = points.length + 1;
 
+        // this.points starts at 1... :(
         this.points = new Point[size];
         this.functions = new Function[size];
 
         this.functions[0] = new Function();
         this.points[0] = new Point();
-        this.functions[size - 1] = new Function();
 
         Lines lines = new Lines(points);
 
         for (int i = 1; i < size - 1; i++) {
-            this.points[i] = new Point(points[i]);
+            this.points[i] = new Point(points[i - 1]);
 
             this.functions[i] = new Function(
                     lines.lines[i],
                     lines.lines[i + 1],
-                    points[i],
-                    points[i + 1]);
+                    points[i - 1],
+                    points[i]);
         }
-        this.points[size - 1] = new Point(points[size - 1]);
+        this.functions[size - 1] = new Function();
+        this.points[size - 1] = new Point(points[size - 2]);
     }
 
     public double eval(double x, int num_values) {

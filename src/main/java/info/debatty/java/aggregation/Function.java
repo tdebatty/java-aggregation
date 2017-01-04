@@ -6,16 +6,16 @@ package info.debatty.java.aggregation;
  */
 final class Function {
 
-    int type = 1;             /* 1: recta, 2: dobleBernstein */
+    private int type = 1;             /* 1: recta, 2: dobleBernstein */
 
-    double m = 0;
-    double n = 0;
+    private double m = 0;
+    private double n = 0;
 
-    Point di = new Point();
-    Point vi = new Point();
-    Point oi = new Point();
-    Point wi = new Point();
-    Point diP1 = new Point();
+    private final Point di = new Point();
+    private final Point vi = new Point();
+    private final Point oi = new Point();
+    private final Point wi = new Point();
+    private final Point diP1 = new Point();
 
     Function() {
     }
@@ -61,8 +61,8 @@ final class Function {
         if (y > 1.0) {
             y = 1.0;
         }
-        return (y);
-    } /*eeval */
+        return y;
+    }
 
     /**
      * Compute the interpolation parameters between two lines with same angle
@@ -80,12 +80,14 @@ final class Function {
 
 
         double tip = (point1.x + point2.x) / 2.0;
+
         vi.x = (point1.x + tip) / 2.0;
         vi.y = line1.a * (point1.x + tip) / 2.0 + line1.b;
         wi.x = (point2.x + tip) / 2.0;
         wi.y = line2.a * (point2.x + tip) / 2.0 + line2.b;
-        oi.x = tip;
+
         StraightLine R = StraightLine.fromPoints(vi, wi);
+        oi.x = tip;
         oi.y = R.eval(tip);
 
         if (wi.y > Math.max(point2.y, point1.y)) {
