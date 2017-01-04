@@ -26,11 +26,11 @@ class Vector {
     }
 
     public double get(final int position) {
-        return values[position - 1];
+        return values[position];
     }
 
     public void set(final int position, final double value) {
-        values[position - 1] = value;
+        values[position] = value;
     }
 
     public wwLdf setQ() {

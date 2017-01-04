@@ -52,14 +52,14 @@ class Wwv2 {
 
 
         a.sort(p);
-        omega.set(1, fer.eval4(p.get(1), num_values));
-        acc = p.get(1);
+        omega.set(0, fer.eval4(p.get(0), num_values));
+        acc = p.get(0);
 
         for (int i = 2; i <= num_values; i++) {
             accv = acc;
-            acc = acc + p.get(i);
+            acc = acc + p.get(i - 1);
             omega.set(
-                    i,
+                    i - 1,
                     fer.eval4(acc, num_values) - fer.eval4(accv, num_values));
 
         }
