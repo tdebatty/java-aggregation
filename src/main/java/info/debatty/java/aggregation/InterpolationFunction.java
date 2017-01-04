@@ -22,7 +22,6 @@ class InterpolationFunction {
         this.functions[size - 1] = new Function();
 
         Lines lines = new Lines(points);
-        //lines.calculaLi(points, size - 2);
 
         for (int i = 1; i < size - 1; i++) {
             this.points[i] = new Point(points[i]);
