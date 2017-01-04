@@ -6,9 +6,10 @@ package info.debatty.java.aggregation;
  */
 class Function {
 
-    int t;             /* 1: recta, 2: dobleBernstein */
+    int type;             /* 1: recta, 2: dobleBernstein */
 
-    double m, n;
+    double m = 0;
+    double n = 0;
     Point di, vi, oi, wi, diP1;
 
     Function() {
@@ -20,7 +21,7 @@ class Function {
     }
 
     public void copia(Function f) {
-        t = f.t;
+        type = f.type;
         m = f.m;
         n = f.n;
         di = new Point(f.di.x, f.di.y);
@@ -30,13 +31,13 @@ class Function {
         diP1 = new Point(f.diP1.x, f.diP1.y);
     }
 
-    public double eval3(double x) {
+    public double eval(double x) {
         double y, xi, ti, xiP1;
         y = 0.0;
         xi = 0.0;
         ti = 0.0;
         xiP1 = 0.0;
-        if (t == 1) {
+        if (type == 1) {
             y = m * x + n;
         } else {
             xi = di.x;
@@ -62,7 +63,7 @@ class Function {
 
 
     public void initfunc(int num_values) {
-        t = 1;
+        type = 1;
         m = 0.0;
         n = 0.0;
         di.x = 0.0;
@@ -113,7 +114,7 @@ class Function {
             System.out.println("wwfuncio.DVOWDNa: Error4");
         }
 
-        this.t = 2;
+        this.type = 2;
         this.di.x = di.x;
         this.di.y = di.y;
         this.vi.x = vi.x;
@@ -168,7 +169,7 @@ class Function {
 
         StraightLine R = StraightLine.fromPoints(vi, wi);
         oi.y = R.eval(tip);
-        this.t = 2;
+        this.type = 2;
         this.di.x = di.x;
         this.di.y = di.y;
         this.vi.x = vi.x;
@@ -189,7 +190,7 @@ class Function {
         this.initfunc(num_values);
 
         if ((Li.a == LiP1.a) && (Li.b == LiP1.b)) {
-            this.t = 1;
+            this.type = 1;
             this.m = Li.a;
             this.n = Li.b;  /* put ("DVOWD-cas recta"); */
 
