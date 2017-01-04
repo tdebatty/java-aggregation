@@ -54,39 +54,10 @@ class Function {
         return (y);
     } /*eeval */
 
-
-    public void initfunc(int num_values) {
-        type = 1;
-        m = 0.0;
-        n = 0.0;
-        di.x = 0.0;
-        di.y = 0.0;
-        vi.x = 0.0;
-        vi.y = 0.0;
-        oi.x = 0.0;
-        oi.y = 0.0;
-        wi.x = 0.0;
-        wi.y = 0.0;
-        diP1.x = 0.0;
-        diP1.y = 0.0;
-    }
-
     public void calcDVOWDNa(StraightLine Li, StraightLine LiP1, Point di, Point diP1, int num_values) {
-        double tip;
-        Point vi = new Point(0.0, 0.0);
-        Point wi = new Point(0.0, 0.0);
-        Point oi = new Point(0.0, 0.0);
 
-        tip = 0.0;
-        vi.x = 0.0;
-        vi.y = 0.0;
-        wi.x = 0.0;
-        wi.y = 0.0;
-        oi.x = 0.0;
-        oi.y = 0.0;
-        this.initfunc(num_values); // el parametre no s'usa per a res !!
 
-        tip = (di.x + diP1.x) / 2.0;
+        double tip = (di.x + diP1.x) / 2.0;
         vi.x = (di.x + tip) / 2.0;
         vi.y = Li.a * (di.x + tip) / 2.0 + Li.b;
         wi.x = (diP1.x + tip) / 2.0;
@@ -110,12 +81,6 @@ class Function {
         this.type = 2;
         this.di.x = di.x;
         this.di.y = di.y;
-        this.vi.x = vi.x;
-        this.vi.y = vi.y;
-        this.oi.x = oi.x;
-        this.oi.y = oi.y;
-        this.wi.x = wi.x;
-        this.wi.y = wi.y;
         this.diP1.x = diP1.x;
         this.diP1.y = diP1.y;
 
@@ -125,28 +90,11 @@ class Function {
 
     public void calcDVOWDa(StraightLine Li, StraightLine LiP1, Point di,
             Point diP1, int num_values) {
-        double tip, ti, zi;
-        //struct funcio f;
-        Point vi = new Point(0.0, 0.0);
-        Point wi = new Point(0.0, 0.0);
-        Point oi = new Point(0.0, 0.0);
-        Point t = new Point(0.0, 0.0);
 
-        tip = 0.0;
-        ti = 0.0;
-        zi = 0.0;
-        vi.x = 0.0;
-        vi.y = 0.0;
-        wi.x = 0.0;
-        wi.y = 0.0;
-        oi.x = 0.0;
-        oi.y = 0.0;
-        t.x = 0.0;
-        t.y = 0.0;
-        this.initfunc(num_values);
-
-        ti = (Li.b - LiP1.b) / (LiP1.a - Li.a);
-        zi = (LiP1.a * Li.b - Li.a * LiP1.b) / (LiP1.a - Li.a);
+        double tip;
+        double ti = (Li.b - LiP1.b) / (LiP1.a - Li.a);
+        double zi = (LiP1.a * Li.b - Li.a * LiP1.b) / (LiP1.a - Li.a);
+        
         if ((di.x <= ti) && (ti <= diP1.x)
                 && (di.y <= zi) && (zi <= diP1.y)) {
             tip = ti;
@@ -165,12 +113,6 @@ class Function {
         this.type = 2;
         this.di.x = di.x;
         this.di.y = di.y;
-        this.vi.x = vi.x;
-        this.vi.y = vi.y;
-        this.oi.x = oi.x;
-        this.oi.y = oi.y;
-        this.wi.x = wi.x;
-        this.wi.y = wi.y;
         this.diP1.x = diP1.x;
         this.diP1.y = diP1.y;
         //return(f);
