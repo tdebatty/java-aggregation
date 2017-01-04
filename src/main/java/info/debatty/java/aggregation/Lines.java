@@ -52,65 +52,57 @@ class Lines {
      * *********************************************************************
      */
     public void calculaLi(Point[] points, int num_values) {
-        wwLf s = new wwLf(num_values + 1);
-        wwLf m = new wwLf(num_values + 1);
-        //wwLr L = new wwLr (num_values);
-        int N, i;
-        N = 0;
-        i = 0;
+        double[] s = new double[num_values + 2];
+        double[] m = new double[num_values + 2];
 
-        for (i = 1; i <= num_values; i++) /* initialize everything that is defined */ {                             /* in calculaLi 			 */
-
-            s.long_float[i] = 0.0;
-            m.long_float[i] = 0.0;
-        }
-        N = num_values + 1; //N es la darrera posicio de d, i d es num_values+1
+        int i = 0;
+        int N = num_values + 1; //N es la darrera posicio de d, i d es num_values+1
 
         for (i = 2; i <= N; i++) {
-            s.long_float[i] = Point.calculaSi(points[i], points[i - 1]);
+            s[i] = Point.calculaSi(points[i], points[i - 1]);
         }
 
         for (i = 2; i <= N - 1; i++) {
-            m.long_float[i] = Point.calculaMi(s.long_float[i], s.long_float[i + 1],
+            m[i] = Point.calculaMi(s[i], s[i + 1],
                     points[i], points[i - 1], points[i + 1]);
         }
 
         if (McAllister) {
-            if ((s.long_float[2] * (2 * s.long_float[2] - m.long_float[2])) > 0.0) {
-                m.long_float[1] = 2 * s.long_float[2] - m.long_float[2];
+            if ((s[2] * (2 * s[2] - m[2])) > 0.0) {
+                m[1] = 2 * s[2] - m[2];
             } else {
-                m.long_float[1] = 0.0;
+                m[1] = 0.0;
             }
         } else {
-            if ((m.long_float[2] == 0.0) && (s.long_float[2] == 0.0)) {
-                m.long_float[1] = 0.0;
-            } else if (m.long_float[2] == 0.0) {
-                m.long_float[1] = infinit;
+            if ((m[2] == 0.0) && (s[2] == 0.0)) {
+                m[1] = 0.0;
+            } else if (m[2] == 0.0) {
+                m[1] = infinit;
             } else {
-                m.long_float[1] = s.long_float[2] * s.long_float[2] / m.long_float[2];
+                m[1] = s[2] * s[2] / m[2];
             }
         }
 
         if (McAllister) {
-            if ((s.long_float[N] * (2 * s.long_float[N] - m.long_float[N - 1])) > 0.0) {
-                m.long_float[N] = 2 * s.long_float[N] - m.long_float[N - 1];
+            if ((s[N] * (2 * s[N] - m[N - 1])) > 0.0) {
+                m[N] = 2 * s[N] - m[N - 1];
             } else {
-                m.long_float[N] = 0.0;
+                m[N] = 0.0;
             }
         } else {
-            if ((m.long_float[N - 1] == 0.0) && (s.long_float[N] == 0.0)) {
-                m.long_float[N] = 0.0;
-            } else if (m.long_float[N - 1] == 0.0) {
-                m.long_float[N] = infinit;
+            if ((m[N - 1] == 0.0) && (s[N] == 0.0)) {
+                m[N] = 0.0;
+            } else if (m[N - 1] == 0.0) {
+                m[N] = infinit;
             } else {
-                m.long_float[N] = s.long_float[N] * s.long_float[N]
-                        / m.long_float[N - 1];
+                m[N] = s[N] * s[N]
+                        / m[N - 1];
             }
         }
 
         for (i = 1; i <= N; i++) {
-            this.lines[i].a = m.long_float[i];
-            this.lines[i].b = points[i].y - m.long_float[i] * points[i].x;
+            this.lines[i].a = m[i];
+            this.lines[i].b = points[i].y - m[i] * points[i].x;
         }
     }
 }
