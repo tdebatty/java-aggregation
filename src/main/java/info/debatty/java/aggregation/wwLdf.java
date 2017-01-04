@@ -7,22 +7,22 @@ package info.debatty.java.aggregation;
 
 class wwLdf {
 
-    Point[] d;
+    Point[] points;
     Function[] functions;
 
-    public wwLdf(int num_values) {
+    public wwLdf(int size) {
         // Ldf ff;
         // la funcio eval4 accedeix al d[punt+1]
-        d = new Point[num_values + 2];
+        points = new Point[size + 2];
 
-        functions = new Function[num_values + 2];
-        for (int i = 0; i < num_values + 2; i++) {
+        functions = new Function[size + 2];
+        for (int i = 0; i < size + 2; i++) {
             functions[i] = new Function();
         }
 
-        for (int i = 1; i <= num_values; i++) {
+        for (int i = 1; i <= size; i++) {
             // System.out.println ("Num_values:"+num_values+"i:"+i);
-            d[i] = new Point(0.0, 0.0);
+            points[i] = new Point(0.0, 0.0);
             functions[i].t = 1;
             functions[i].m = 0.0;
             functions[i].n = 0.0;
@@ -39,19 +39,19 @@ class wwLdf {
         }
     }
 
-    public double eval4(double x, int num_values) {
+    public double eval(double x, int num_values) {
 
         for (int i = 1; i <= num_values; i++) {
-            if ((d[i].x <= x) && (x <= d[i + 1].x)) {
+            if ((points[i].x <= x) && (x <= points[i + 1].x)) {
                 return functions[i].eval3(x);
             }
         }
 
-        if (x <= d[1].x) {
+        if (x <= points[1].x) {
             return 0.0;
         }
 
-        if (d[num_values + 1].x <= x) {
+        if (points[num_values + 1].x <= x) {
             return 1.0;
         }
 
@@ -72,8 +72,8 @@ class wwLdf {
      */
     public void ferQ(Point[] dd, int num_values) {
         // Afegeixo la definicio de les variables de Ldf
-        d = new Point[num_values + 2];
-        d[num_values + 1] = new Point(0.0, 0.0);
+        points = new Point[num_values + 2];
+        points[num_values + 1] = new Point(0.0, 0.0);
 
         functions = new Function[num_values + 2];
         for (int i = 0; i < num_values + 2; i++) {
@@ -90,7 +90,7 @@ class wwLdf {
         // I si canvio d per dd en la definicio de la funcio, aixo ho puc treure
         // dd = d; /* avoids too many indirection passes */
         for (i = 1; i <= num_values; i++) /* initialize L and f */ {
-            this.d[i] = new Point(0.0, 0.0);
+            this.points[i] = new Point(0.0, 0.0);
             this.functions[i].t = 1;
             this.functions[i].m = 0.0;
             this.functions[i].n = 0.0;
@@ -107,20 +107,20 @@ class wwLdf {
             this.functions[i].diP1.y = 0.0;
         }
         tempFun.initfunc(num_values);
-        this.d[num_values].x = 0.0;
-        this.d[num_values].y = 0.0;
+        this.points[num_values].x = 0.0;
+        this.points[num_values].y = 0.0;
 
         L.calculaLi(dd, num_values);
 
         for (i = 1; i <= num_values; i++) {
-            this.d[i].x = dd[i].x;
-            this.d[i].y = dd[i].y;
+            this.points[i].x = dd[i].x;
+            this.points[i].y = dd[i].y;
             tempFun.calculaDVOWD(L.rectai[i], L.rectai[i + 1], dd[i],
                     dd[i + 1], num_values);
             this.functions[i].copia(tempFun);
         }
-        this.d[num_values + 1].x = dd[num_values + 1].x;
-        this.d[num_values + 1].y = dd[num_values + 1].y;
+        this.points[num_values + 1].x = dd[num_values + 1].x;
+        this.points[num_values + 1].y = dd[num_values + 1].y;
         //return (f2);
     } /* eferQ */
 

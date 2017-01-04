@@ -26,24 +26,48 @@ package info.debatty.java.aggregation;
 
 
 /**
+ * Implementation of the WOWA operator as described in: V. Torra, The Weighted
+ * OWA operator, Int. J. of Intel. Systems, 12 (1997) 153-166.
+ *
+ * And using the interpolation method described in: V. Torra, The WOWA operator
+ * and the interpolation function W*: Chen and Otto's interpolation method
+ * revisited, Fuzzy Sets and Systems, 113:3 (2000) 389-396.
+ *
+ * Original code by Vicenc Torra.
  *
  * @author Thibault Debatty
  */
 public class WOWA implements AggregatorInterface {
 
-    private final double[] weights;
-    private final double[] ordered_weights;
+    private final Vector weights;
+    private final Vector ordered_weights;
 
     public WOWA(final double[] weights, final double[] ordered_weights) {
-        this.weights = weights;
-        this.ordered_weights = ordered_weights;
+        this.weights = new Vector(weights);
+        this.ordered_weights = new Vector(ordered_weights);
     }
 
     @Override
     public double aggregate(final double[] values) {
-        return Wwv2.wowa(
-                new Vector(weights),
-                new Vector(ordered_weights),
-                new Vector(values));
+        int size = weights.size();
+
+        Vector values_vector = new Vector(values);
+        values_vector.sort(ordered_weights);
+
+        Vector omega = new Vector(size);
+        wwLdf fer = weights.setQ();
+        omega.set(0, fer.eval(ordered_weights.get(0), size));
+
+        double acc = ordered_weights.get(0);
+        for (int i = 2; i <= size; i++) {
+            double temp = acc;
+            acc += ordered_weights.get(i - 1);
+            omega.set(
+                    i - 1,
+                    fer.eval(acc, size) - fer.eval(temp, size));
+
+        }
+
+        return values_vector.dotProduct(omega);
     }
 }
