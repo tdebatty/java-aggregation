@@ -12,11 +12,11 @@ class Function {
     Point di, vi, oi, wi, diP1;
 
     Function() {
-        di = new Point(0.0, 0.0);
-        vi = new Point(0.0, 0.0);
-        oi = new Point(0.0, 0.0);
-        wi = new Point(0.0, 0.0);
-        diP1 = new Point(0.0, 0.0);
+        di = new Point();
+        vi = new Point();
+        oi = new Point();
+        wi = new Point();
+        diP1 = new Point();
     }
 
     public void copia(Function f) {

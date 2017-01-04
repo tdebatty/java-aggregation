@@ -15,8 +15,8 @@ class Point {
         y = b;
     }
 
-    void escriu() {
-        System.out.print("(" + x + "," + y + ")");
+    Point() {
+
     }
 
     /**
@@ -63,8 +63,7 @@ class Point {
 
 
     public static double calculaSi(Point di, Point di_1) {
-        double resu = (di.y - di_1.y) / (di.x - di_1.x);
-        return (resu);
+        return (di.y - di_1.y) / (di.x - di_1.x);
     }
 
     public static double calculaMi(double si, double siP1, Point di,

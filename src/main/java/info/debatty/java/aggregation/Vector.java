@@ -33,21 +33,18 @@ class Vector {
         values[position] = value;
     }
 
-    public wwLdf setQ() {
+    public InterpolationFunction getInterpolationFunction() {
 
-        // de vLp se'n necessita un punt de mes perque es va a llo+1
-        Point[] vLp = new Point[values.length + 2];
-        wwLdf df = new wwLdf(values.length + 1); /* es lo que se devuelve */
-
-        vLp[1] = new Point(0.0, 0.0);
+        // Point[] is used from position 1 (instead of 0) :(
+        Point[] points = new Point[values.length + 2];
+        points[1] = new Point(0.0, 0.0);
         for (int i = 2; i <= values.length + 1; i++) {
-            int tempx = i - 1;
-            vLp[i] = new Point(
-                    1.0 * tempx / (values.length),
-                    values[i - 2] + vLp[i - 1].y);
+            points[i] = new Point(
+                    1.0 * (i - 1) / (values.length),
+                    values[i - 2] + points[i - 1].y);
         }
-        df.ferQ(vLp, values.length);
-        return (df);
+
+        return new InterpolationFunction(points);
     }
 
     /**
