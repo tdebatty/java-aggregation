@@ -17,24 +17,24 @@ class InterpolationFunction {
         this.points = new Point[size];
         this.functions = new Function[size];
 
-        for (int i = 0; i < size; i++) {
-            this.functions[i] = new Function();
-            this.points[i] = new Point(0.0, 0.0);
-        }
+        this.functions[0] = new Function();
+        this.points[0] = new Point();
+        this.functions[size - 1] = new Function();
 
         wwLr L = new wwLr(size - 1);
         L.calculaLi(points, size - 2);
 
-        Function tempFun = new Function();
         for (int i = 1; i < size - 1; i++) {
-            this.points[i].x = points[i].x;
-            this.points[i].y = points[i].y;
+            this.points[i] = new Point(points[i]);
 
-            this.functions[i] = new Function(L.rectai[i], L.rectai[i + 1], points[i],
-                    points[i + 1], size - 2);
+            this.functions[i] = new Function(
+                    L.rectai[i],
+                    L.rectai[i + 1],
+                    points[i],
+                    points[i + 1],
+                    size - 2);
         }
-        this.points[size - 1].x = points[size - 1].x;
-        this.points[size - 1].y = points[size - 1].y;
+        this.points[size - 1] = new Point(points[size - 1]);
     }
 
     public double eval(double x, int num_values) {

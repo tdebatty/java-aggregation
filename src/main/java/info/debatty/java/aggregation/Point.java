@@ -20,6 +20,15 @@ class Point {
     }
 
     /**
+     * Copy constructor.
+     * @param other
+     */
+    Point(Point other) {
+        this.x = other.x;
+        this.y = other.y;
+    }
+
+    /**
      * ***********************************************************
      */
     /* Bernstein es un eval y una funcio oculta 			*/
