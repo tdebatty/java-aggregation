@@ -111,4 +111,8 @@ class Vector {
         }
         return agg;
     }
+
+    int size() {
+        return values.length - 1;
+    }
 }

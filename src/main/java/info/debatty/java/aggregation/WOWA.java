@@ -34,15 +34,16 @@ public class WOWA implements AggregatorInterface {
     private final double[] weights;
     private final double[] ordered_weights;
 
-    public WOWA(double[] weights, double[] ordered_weights) {
+    public WOWA(final double[] weights, final double[] ordered_weights) {
         this.weights = weights;
         this.ordered_weights = ordered_weights;
     }
 
-    public double aggregate(double[] values) {
+    @Override
+    public double aggregate(final double[] values) {
         return Wwv2.wowa(
-                weights,
-                ordered_weights,
-                values);
+                new Vector(weights),
+                new Vector(ordered_weights),
+                new Vector(values));
     }
 }

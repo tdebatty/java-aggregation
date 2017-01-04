@@ -47,14 +47,9 @@ class Wwv2 {
         return wm(pn, an, p.length);
     }
 
-    public static double wowa(double[] w, double[] p, double[] a) {
-        Vector wn = new Vector(w);
-        Vector pn = new Vector(p);
-        Vector an = new Vector(a);
-        return wowa(wn, pn, an, w.length);
-    }
+    public static double wowa(Vector w, Vector p, Vector a) {
+        int num_values = w.size();
 
-    public static double wowa(Vector w, Vector p, Vector a, int num_values) {
         Vector omega = new Vector(num_values);
         double retorna, acc, accv;
 
