@@ -37,22 +37,18 @@ class Lines {
 
         lines = new StraightLine[points.length];
 
-        for (int i = 0; i < points.length; i++) {
-            lines[i] = new StraightLine(0, 0);
-        }
 
         // will store the angular coeficient between successive points
         double[] coefs = new double[points.length + 1];
         double[] m = new double[points.length + 1];
 
-        int i = 0;
         int size = points.length;
 
-        for (i = 2; i <= size; i++) {
+        for (int i = 2; i <= size; i++) {
             coefs[i] = Point.computeCoef(points[i - 2], points[i - 1]);
         }
 
-        for (i = 2; i <= size - 1; i++) {
+        for (int i = 2; i <= size - 1; i++) {
             m[i] = Point.calculaMi(
                     coefs[i],
                     coefs[i + 1],
@@ -67,9 +63,10 @@ class Lines {
             compute(coefs, m);
         }
 
-        for (i = 1; i <= size; i++) {
-            this.lines[i - 1].a = m[i];
-            this.lines[i - 1].b = points[i - 1].y - m[i] * points[i - 1].x;
+        for (int i = 1; i <= size; i++) {
+            this.lines[i - 1] = new StraightLine(
+                    m[i],
+                    points[i - 1].y - m[i] * points[i - 1].x);
         }
     }
 
