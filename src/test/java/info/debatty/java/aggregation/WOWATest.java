@@ -32,10 +32,6 @@ import junit.framework.TestCase;
  */
 public class WOWATest extends TestCase {
 
-    public WOWATest(String testName) {
-        super(testName);
-    }
-
     /**
      * Test of aggregate method, of class WOWA.
      */
@@ -47,9 +43,35 @@ public class WOWATest extends TestCase {
         double[] ordered_weights = new double[] {0.1, 0.2, 0.3, 0.4, 0.0};
 
         WOWA wowa = new WOWA(weights, ordered_weights);
-        double expResult = 0.194296875;
+        double exp = 0.194296875;
         double result = wowa.aggregate(values);
-        assertEquals(expResult, result, 1E-9);
+        assertEquals(exp, result, 1E-9);
+    }
+
+    public void testAggregate2() {
+        System.out.println("WOWA2");
+
+        double[] values = new double[] {0.4, 0.2, 0.3, 0.1, 0.0};
+        double[] weights = new double[] {0.2, 0.2, 0.2, 0.2, 0.2};
+        double[] ordered_weights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0};
+
+        WOWA wowa = new WOWA(weights, ordered_weights);
+        double exp = 0.3;
+        double result = wowa.aggregate(values);
+        assertEquals(exp, result, 1E-9);
+    }
+
+    public void testAggregate3() {
+        System.out.println("WOWA3");
+
+        double[] values = new double[] {0.4, 0.2, 0.3, 0.1, 0.0};
+        double[] ordered_weights = new double[] {0.2, 0.2, 0.2, 0.2, 0.2};
+        double[] weights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0};
+
+        WOWA wowa = new WOWA(weights, ordered_weights);
+        double exp = 0.2;
+        double result = wowa.aggregate(values);
+        assertEquals(exp, result, 1E-9);
     }
 
 }
