@@ -30,33 +30,82 @@ package info.debatty.java.aggregation;
  */
 class InterpolationFunctions {
 
+    private static final double INFINITY = Double.MAX_VALUE;
+
     private final Point[] points;
     private final InterpolationFunction[] functions;
 
     InterpolationFunctions(final Point[] points) {
 
-        int size = points.length + 1;
+        int size = points.length;
 
+        // Make a copy of points
         // this.points starts at 1... :(
-        this.points = new Point[size];
-        this.functions = new InterpolationFunction[size];
-
-        this.functions[0] = new InterpolationFunction();
+        this.points = new Point[size + 1];
         this.points[0] = new Point();
-
-        Lines lines = new Lines(points);
-
-        for (int i = 1; i < size - 1; i++) {
+        for (int i = 1; i < size; i++) {
             this.points[i] = new Point(points[i - 1]);
+        }
+        this.points[size] = new Point(points[size - 1]);
+
+
+        // Compute the tangent line corresponding to each point
+        // compute the angular coeficient between successive points
+        double[] point_coefs = new double[points.length + 1];
+        for (int i = 2; i <= size; i++) {
+            point_coefs[i] = Point.computeCoef(points[i - 2], points[i - 1]);
+        }
+
+        // compute the angular coef of each tangent line
+        double[] line_coefs = new double[points.length + 1];
+        for (int i = 2; i <= size - 1; i++) {
+            line_coefs[i] = Point.computeLineCoef(
+                    point_coefs[i],
+                    point_coefs[i + 1],
+                    points[i - 1],
+                    points[i - 2],
+                    points[i]);
+        }
+
+        // Modify the first and last value in line_coefs
+        if ((line_coefs[2] == 0.0) && (point_coefs[2] == 0.0)) {
+            line_coefs[1] = 0.0;
+        } else if (line_coefs[2] == 0.0) {
+            line_coefs[1] = INFINITY;
+        } else {
+            line_coefs[1] = point_coefs[2] * point_coefs[2] / line_coefs[2];
+        }
+
+        if ((line_coefs[size - 1] == 0.0) && (point_coefs[size] == 0.0)) {
+            line_coefs[size] = 0.0;
+        } else if (line_coefs[size - 1] == 0.0) {
+            line_coefs[size] = INFINITY;
+        } else {
+            line_coefs[size] = point_coefs[size] * point_coefs[size] / line_coefs[size - 1];
+        }
+
+        // Create the actual lines
+        Line[] lines = new Line[points.length];
+        for (int i = 1; i <= size; i++) {
+            lines[i - 1] = new Line(
+                    line_coefs[i],
+                    points[i - 1].y - line_coefs[i] * points[i - 1].x);
+        }
+
+        // Compute the interpolation functions between each pair of points,
+        // using the tangent lines computed above.
+        // this.functions is 1 based :(
+        this.functions = new InterpolationFunction[size + 1];
+        this.functions[0] = new InterpolationFunction();
+        for (int i = 1; i < size; i++) {
 
             this.functions[i] = new InterpolationFunction(
-                    lines.get(i - 1),
-                    lines.get(i),
+                    lines[i - 1],
+                    lines[i],
                     points[i - 1],
                     points[i]);
         }
-        this.functions[size - 1] = new InterpolationFunction();
-        this.points[size - 1] = new Point(points[size - 2]);
+        this.functions[size] = new InterpolationFunction();
     }
 
     public double eval(final double value, final int num_values) {
