@@ -101,7 +101,7 @@ class Vector {
      * Sort both vectors according to the values in this vector.
      * @param other
      */
-    public void sort(final Vector other) {
+    public Vector sort(final Vector other) {
 
         for (int i = 0; i < values.length; i++) {
             for (int j = i + 1; j < values.length; j++) {
@@ -117,6 +117,8 @@ class Vector {
                 }
             }
         }
+
+        return this;
     }
 
 

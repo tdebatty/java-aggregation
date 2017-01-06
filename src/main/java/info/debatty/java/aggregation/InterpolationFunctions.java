@@ -38,50 +38,45 @@ class InterpolationFunctions {
     InterpolationFunctions(final Point[] points) {
 
         int size = points.length;
-
-        // Make a copy of points
-        // this.points starts at 1... :(
-        this.points = new Point[size + 1];
-        this.points[0] = new Point();
-        for (int i = 1; i < size; i++) {
-            this.points[i] = new Point(points[i - 1]);
-        }
-        this.points[size] = new Point(points[size - 1]);
-
+        this.points = points;
 
         // Compute the tangent line corresponding to each point
         // compute the angular coeficient between successive points
-        double[] point_coefs = new double[points.length + 1];
-        for (int i = 2; i <= size; i++) {
-            point_coefs[i] = Point.computeCoef(points[i - 2], points[i - 1]);
+        double[] point_coefs = new double[points.length - 1];
+        for (int i = 0; i < size - 1; i++) {
+            point_coefs[i] = Point.computeCoef(points[i], points[i + 1]);
         }
 
         // compute the angular coef of each tangent line
         double[] line_coefs = new double[points.length + 1];
         for (int i = 2; i <= size - 1; i++) {
             line_coefs[i] = Point.computeLineCoef(
-                    point_coefs[i],
-                    point_coefs[i + 1],
+                    point_coefs[i - 2],
+                    point_coefs[i - 1],
                     points[i - 1],
                     points[i - 2],
                     points[i]);
         }
 
         // Modify the first and last value in line_coefs
-        if ((line_coefs[2] == 0.0) && (point_coefs[2] == 0.0)) {
+        // See "The WOWA operator and the interpolation function W* : Chen and
+        // Otto's interpolation method revisited" p. 8
+        if ((line_coefs[2] == 0.0) && (point_coefs[0] == 0.0)) {
             line_coefs[1] = 0.0;
         } else if (line_coefs[2] == 0.0) {
             line_coefs[1] = INFINITY;
         } else {
-            line_coefs[1] = point_coefs[2] * point_coefs[2] / line_coefs[2];
+            line_coefs[1] = point_coefs[0] * point_coefs[0] / line_coefs[2];
         }
 
-        if ((line_coefs[size - 1] == 0.0) && (point_coefs[size] == 0.0)) {
+        if ((line_coefs[size - 1] == 0.0) && (point_coefs[size - 2] == 0.0)) {
             line_coefs[size] = 0.0;
         } else if (line_coefs[size - 1] == 0.0) {
             line_coefs[size] = INFINITY;
         } else {
-            line_coefs[size] = point_coefs[size] * point_coefs[size] / line_coefs[size - 1];
+            line_coefs[size] =
+                    point_coefs[size - 2] * point_coefs[size - 2]
+                    / line_coefs[size - 1];
         }
 
         // Create the actual lines
@@ -94,36 +89,30 @@ class InterpolationFunctions {
 
         // Compute the interpolation functions between each pair of points,
         // using the tangent lines computed above.
-        // this.functions is 1 based :(
-        this.functions = new InterpolationFunction[size + 1];
-        this.functions[0] = new InterpolationFunction();
-        for (int i = 1; i < size; i++) {
-
+        this.functions = new InterpolationFunction[size - 1];
+        for (int i = 0; i < size - 1; i++) {
             this.functions[i] = new InterpolationFunction(
-                    lines[i - 1],
                     lines[i],
-                    points[i - 1],
-                    points[i]);
+                    lines[i + 1],
+                    points[i],
+                    points[i + 1]);
         }
-        this.functions[size] = new InterpolationFunction();
     }
 
-    public double eval(final double value, final int num_values) {
+    public double eval(final double value) {
 
-        for (int i = 1; i <= num_values; i++) {
-            if ((points[i].x <= value) && (value <= points[i + 1].x)) {
+        if (value <= points[0].x) {
+            return 0.0;
+        }
+
+        // points[i].x are in increasing order
+        // hence we can only test for upper bound of interval
+        for (int i = 0; i < points.length - 1; i++) {
+            if (value <= points[i + 1].x) {
                 return functions[i].eval(value);
             }
         }
 
-        if (value <= points[1].x) {
-            return 0.0;
-        }
-
-        if (points[num_values + 1].x <= value) {
-            return 1.0;
-        }
-
-        throw  new ArithmeticException("Value not found!");
+        return 1.0;
     }
 }

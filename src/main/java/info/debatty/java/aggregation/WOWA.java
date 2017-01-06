@@ -60,8 +60,9 @@ public class WOWA implements AggregatorInterface {
         values_vector.sort(weights);
 
         Vector omega = new Vector(size);
-        InterpolationFunctions fer = ordered_weights.getInterpolationFunctions();
-        omega.set(0, fer.eval(weights.get(0), size));
+        InterpolationFunctions interpolations =
+                ordered_weights.getInterpolationFunctions();
+        omega.set(0, interpolations.eval(weights.get(0)));
 
         double acc = weights.get(0);
         for (int i = 2; i <= size; i++) {
@@ -69,7 +70,7 @@ public class WOWA implements AggregatorInterface {
             acc += weights.get(i - 1);
             omega.set(
                     i - 1,
-                    fer.eval(acc, size) - fer.eval(temp, size));
+                    interpolations.eval(acc) - interpolations.eval(temp));
         }
 
         return values_vector.dotProduct(omega);
