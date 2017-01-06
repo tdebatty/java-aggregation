@@ -27,8 +27,8 @@ class InterpolationFunction {
             this.points[i] = new Point(points[i - 1]);
 
             this.functions[i] = new Function(
+                    lines.get(i - 1),
                     lines.get(i),
-                    lines.get(i + 1),
                     points[i - 1],
                     points[i]);
         }

@@ -36,8 +36,9 @@ class Lines {
     Lines(Point[] points) {
 
         // points starts at 0 and lines starts at 1 :(
-        lines = new StraightLine[points.length + 1];
-        for (int i = 1; i < points.length + 1; i++) {
+        lines = new StraightLine[points.length];
+
+        for (int i = 0; i < points.length; i++) {
             lines[i] = new StraightLine(0, 0);
         }
 
@@ -94,8 +95,8 @@ class Lines {
         }
 
         for (i = 1; i <= N; i++) {
-            this.lines[i].a = m[i];
-            this.lines[i].b = points[i - 1].y - m[i] * points[i - 1].x;
+            this.lines[i - 1].a = m[i];
+            this.lines[i - 1].b = points[i - 1].y - m[i] * points[i - 1].x;
         }
     }
 
