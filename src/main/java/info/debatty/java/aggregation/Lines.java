@@ -25,7 +25,7 @@ package info.debatty.java.aggregation;
 
 class Lines {
 
-    private StraightLine[] lines;
+    private final StraightLine[] lines;
 
     static boolean McAllister = false;
     // false = Modificacio meva C & O
@@ -39,34 +39,34 @@ class Lines {
 
 
         // will store the angular coeficient between successive points
-        double[] coefs = new double[points.length + 1];
-        double[] m = new double[points.length + 1];
+        double[] point_coefs = new double[points.length + 1];
+        double[] line_coefs = new double[points.length + 1];
 
         int size = points.length;
 
         for (int i = 2; i <= size; i++) {
-            coefs[i] = Point.computeCoef(points[i - 2], points[i - 1]);
+            point_coefs[i] = Point.computeCoef(points[i - 2], points[i - 1]);
         }
 
         for (int i = 2; i <= size - 1; i++) {
-            m[i] = Point.calculaMi(
-                    coefs[i],
-                    coefs[i + 1],
+            line_coefs[i] = Point.computeLineCoef(
+                    point_coefs[i],
+                    point_coefs[i + 1],
                     points[i - 1],
                     points[i - 2],
                     points[i]);
         }
 
         if (McAllister) {
-            computeMcAllister(coefs, m);
+            computeMcAllister(point_coefs, line_coefs);
         } else {
-            compute(coefs, m);
+            compute(point_coefs, line_coefs);
         }
 
         for (int i = 1; i <= size; i++) {
             this.lines[i - 1] = new StraightLine(
-                    m[i],
-                    points[i - 1].y - m[i] * points[i - 1].x);
+                    line_coefs[i],
+                    points[i - 1].y - line_coefs[i] * points[i - 1].x);
         }
     }
 
@@ -109,25 +109,25 @@ class Lines {
     /**
      * Modify the first and last value in m using classical method.
      * @param coefs
-     * @param m
+     * @param line_coefs
      */
-    private void compute(final double[] coefs, final double[] m) {
-        if ((m[2] == 0.0) && (coefs[2] == 0.0)) {
-            m[1] = 0.0;
-        } else if (m[2] == 0.0) {
-            m[1] = INFINITY;
+    private void compute(final double[] coefs, final double[] line_coefs) {
+        if ((line_coefs[2] == 0.0) && (coefs[2] == 0.0)) {
+            line_coefs[1] = 0.0;
+        } else if (line_coefs[2] == 0.0) {
+            line_coefs[1] = INFINITY;
         } else {
-            m[1] = coefs[2] * coefs[2] / m[2];
+            line_coefs[1] = coefs[2] * coefs[2] / line_coefs[2];
         }
 
         int size = coefs.length - 1;
 
-        if ((m[size - 1] == 0.0) && (coefs[size] == 0.0)) {
-            m[size] = 0.0;
-        } else if (m[size - 1] == 0.0) {
-            m[size] = INFINITY;
+        if ((line_coefs[size - 1] == 0.0) && (coefs[size] == 0.0)) {
+            line_coefs[size] = 0.0;
+        } else if (line_coefs[size - 1] == 0.0) {
+            line_coefs[size] = INFINITY;
         } else {
-            m[size] = coefs[size] * coefs[size] / m[size - 1];
+            line_coefs[size] = coefs[size] * coefs[size] / line_coefs[size - 1];
         }
     }
 }

@@ -28,7 +28,7 @@ final class Function {
     Function() {
     }
 
-    public Function (
+    Function(
             final StraightLine line1,
             final StraightLine line2,
             final Point point1,
@@ -116,36 +116,46 @@ final class Function {
 
 
     private void calcDVOWDa(
+            final StraightLine line0,
             final StraightLine line1,
-            final StraightLine line2,
-            final Point point1,
-            final Point point2) {
+            final Point p0,
+            final Point p1) {
 
-        double tip;
-        double ti = (line1.b - line2.b) / (line2.a - line1.a);
-        double zi = (line2.a * line1.b - line1.a * line2.b) / (line2.a - line1.a);
 
-        if ((point1.x <= ti) && (ti <= point2.x)
-                && (point1.y <= zi) && (zi <= point2.y)) {
-            tip = ti;
+        // Compute the coordinates of intersection between line0 and line1
+        double x_intersection = (line0.b - line1.b) / (line1.a - line0.a);
+        double y_intersection = (line1.a * line0.b - line0.a * line1.b)
+                / (line1.a - line0.a);
+
+        // Choose a x coordinate between p0 and p1
+        double x_between;
+        if ((p0.x <= x_intersection)
+                && (x_intersection <= p1.x)
+                && (p0.y <= y_intersection)
+                && (y_intersection <= p1.y)) {
+            x_between = x_intersection;
+
         } else {
-            tip = (point1.x + point2.x) / 2.0;
+            x_between = (p0.x + p1.x) / 2.0;
         }
 
-        p1.x = (point1.x + tip) / 2.0;
-        p1.y = line1.a * (point1.x + tip) / 2.0 + line1.b;
-        p3.x = (point2.x + tip) / 2.0;
-        p3.y = line2.a * (point2.x + tip) / 2.0 + line2.b;
-        p2.x = tip;
-
-        StraightLine R = StraightLine.fromPoints(p1, p3);
-        p2.y = R.eval(tip);
-
         this.type = Type.doubleBernstein;
-        this.p0.x = point1.x;
-        this.p0.y = point1.y;
-        this.p4.x = point2.x;
-        this.p4.y = point2.y;
+        this.p0 = new Point(p0);
+
+        this.p1 = new Point(
+                (p0.x + x_between) / 2.0,
+                line0.a * (p0.x + x_between) / 2.0 + line0.b);
+
+        this.p3 = new Point(
+                (p1.x + x_between) / 2.0,
+                line1.a * (p1.x + x_between) / 2.0 + line1.b);
+
+        StraightLine straight_line = StraightLine.fromPoints(this.p1, this.p3);
+        this.p2 = new Point(
+                x_between,
+                straight_line.eval(x_between));
+
+        this.p4 = new Point(p1);
 
     }
 

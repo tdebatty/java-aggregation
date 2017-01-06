@@ -36,19 +36,19 @@ class InterpolationFunction {
         this.points[size - 1] = new Point(points[size - 2]);
     }
 
-    public double eval(double x, int num_values) {
+    public double eval(double value, int num_values) {
 
         for (int i = 1; i <= num_values; i++) {
-            if ((points[i].x <= x) && (x <= points[i + 1].x)) {
-                return functions[i].eval(x);
+            if ((points[i].x <= value) && (value <= points[i + 1].x)) {
+                return functions[i].eval(value);
             }
         }
 
-        if (x <= points[1].x) {
+        if (value <= points[1].x) {
             return 0.0;
         }
 
-        if (points[num_values + 1].x <= x) {
+        if (points[num_values + 1].x <= value) {
             return 1.0;
         }
 

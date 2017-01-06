@@ -10,7 +10,7 @@ class Point {
     double x = 0.0;
     double y = 0.0;
 
-    Point(double x, double y) {
+    Point(final double x, final double y) {
         this.x = x;
         this.y = y;
     }
@@ -24,7 +24,7 @@ class Point {
      *
      * @param other
      */
-    Point(Point other) {
+    Point(final Point other) {
         this.x = other.x;
         this.y = other.y;
     }
@@ -80,7 +80,7 @@ class Point {
      * @param p2
      * @return
      */
-    public static double calculaMi(
+    public static double computeLineCoef(
             final double coef0,
             final double coef1,
             final Point p1,
@@ -90,15 +90,17 @@ class Point {
         assert (coef0 * coef1) >= 0.0;
 
         if (Math.abs(coef0) > Math.abs(coef1)) {
-            double bx = (p2.y - p1.y) / coef0 + p1.x;
+            double delta_y = p2.y - p1.y;
+            double bx = delta_y / coef0 + p1.x;
             double cx = (bx + p2.x) / 2.0;
-            return (p2.y - p1.y) / (cx - p1.x);
+            return delta_y / (cx - p1.x);
         }
 
         if (Math.abs(coef0) < Math.abs(coef1)) {
-            double bx = (p1.x - (p1.y - p0.y) / coef1);
+            double delta_y = p1.y - p0.y;
+            double bx = p1.x - delta_y / coef1;
             double cx = (bx + p0.x) / 2.0;
-            return (p1.y - p0.y) / (p1.x - cx);
+            return delta_y / (p1.x - cx);
         }
 
         return coef0;
