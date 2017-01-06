@@ -1,3 +1,27 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2017 Thibault Debatty.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package info.debatty.java.aggregation;
 
 /**
@@ -8,20 +32,24 @@ class Vector {
 
     private final double[] values;
 
-    Vector(int size) {
+    Vector(final int size) {
         values = new double[size];
     }
 
-    public Vector(double[] values) {
+    /**
+     * Instantiate this vector creating a copy of of values.
+     * @param values
+     */
+    Vector(final double[] values) {
         this.values = new double[values.length];
-
-        // values[0..] are copied to this.values[0..]...
-        for (int i = 0; i < values.length; i++) {
-            this.values[i] = values[i];
-        }
+        System.arraycopy(values, 0, this.values, 0, values.length);
     }
 
-    Vector(Vector a) {
+    /**
+     * Copy constructor.
+     * @param a
+     */
+    Vector(final Vector a) {
         this(a.values);
     }
 
@@ -33,7 +61,7 @@ class Vector {
         values[position] = value;
     }
 
-    public InterpolationFunction getInterpolationFunction() {
+    public InterpolationFunctions getInterpolationFunctions() {
 
         // points now starts at 0
         Point[] points = new Point[values.length + 1];
@@ -44,7 +72,7 @@ class Vector {
                     values[i - 1] + points[i - 1].y);
         }
 
-        return new InterpolationFunction(points);
+        return new InterpolationFunctions(points);
     }
 
     /**
@@ -52,7 +80,7 @@ class Vector {
      * Make a copy if you wish to keep the original vector.
      * @param num_values
      */
-    public void sort() {
+    public Vector sort() {
 
         for (int i = 0; i < values.length; i++) {
             for (int j = i + 1; j < values.length; j++) {
@@ -63,6 +91,8 @@ class Vector {
                 }
             }
         }
+
+        return this;
     }
 
 

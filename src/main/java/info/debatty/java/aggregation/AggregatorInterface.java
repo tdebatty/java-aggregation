@@ -29,5 +29,11 @@ package info.debatty.java.aggregation;
  * @author Thibault Debatty
  */
 public interface AggregatorInterface {
-    public double aggregate(double[] values);
+
+    /**
+     * Aggregate the provided values.
+     * @param values
+     * @return
+     */
+    double aggregate(final double[] values);
 }

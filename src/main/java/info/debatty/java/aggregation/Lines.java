@@ -23,6 +23,7 @@
  */
 package info.debatty.java.aggregation;
 
+
 class Lines {
 
     private final StraightLine[] lines;

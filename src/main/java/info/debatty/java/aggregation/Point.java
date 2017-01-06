@@ -30,7 +30,10 @@ class Point {
     }
 
     /**
-     * Evaluate order 2 bernstein polynomial. β0.(1-x)² + β1.2x.(1-x) + β2.x²
+     * Bernstein polynomial interpolation of degree 2.
+     *
+     * As described in Torra "The WOWA operator and the interpolation function
+     * W* : Chen and Otto's interpolation method revisited", page 4.
      *
      * @param p0
      * @param p1
@@ -38,26 +41,26 @@ class Point {
      * @param x
      * @return
      */
-    static double bernstein(Point p0, Point p1, Point p2, double x) {
+    static double bernsteinInterpolation2(
+            final Point p0, final Point p1, final Point p2, final double x) {
 
-        double p0x = p0.x;
-        double b0 = p0.y;
-        double b1 = p1.y;
-        double p2x = p2.x;
-        double b2 = p2.y;
+        double x0 = p0.x;
+        double y0 = p0.y;
+        double y1 = p1.y;
+        double x2 = p2.x;
+        double y2 = p2.y;
 
-        if (p2x == p0x) {
-            return b0;
+        if (x2 == x0) {
+            return y0;
         }
 
         double y
-                = b0 * (p2x - x) * (p2x - x)
-                + b1 * 2.0 * (x - p0x) * (p2x - x)
-                + b2 * (x - p0x) * (x - p0x);
+                = y0 * (x2 - x) * (x2 - x)
+                + y1 * 2.0 * (x - x0) * (x2 - x)
+                + y2 * (x - x0) * (x - x0);
 
-        y = y / ((p2x - p0x) * (p2x - p0x));
+        return y / ((x2 - x0) * (x2 - x0));
 
-        return (y);
     }
 
     /**

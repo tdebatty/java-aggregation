@@ -26,20 +26,25 @@ package info.debatty.java.aggregation;
 
 
 /**
+ * Ordered Weighted Average aggregation.
  *
  * @author Thibault Debatty
  */
 public class OWA implements AggregatorInterface {
-    private final double[] weights;
+    private final Vector weights;
 
+    /**
+     * Initialize with provided weights.
+     * @param weights
+     */
     public OWA(final double[] weights) {
-        this.weights = weights;
+        this.weights = new Vector(weights);
     }
 
     @Override
-    public double aggregate(double[] values) {
-        return Wwv2.owa(
-                weights,
-                values);
+    public final double aggregate(final double[] values) {
+
+        Vector values_vector = new Vector(values);
+        return values_vector.sort().dotProduct(weights);
     }
 }

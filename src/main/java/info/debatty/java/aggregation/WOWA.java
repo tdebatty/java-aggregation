@@ -35,6 +35,8 @@ package info.debatty.java.aggregation;
  *
  * Original code by Vicenc Torra.
  *
+ * http://www.mdai.cat/ifao/wowa.php
+ *
  * @author Thibault Debatty
  */
 public class WOWA implements AggregatorInterface {
@@ -55,7 +57,7 @@ public class WOWA implements AggregatorInterface {
         values_vector.sort(ordered_weights);
 
         Vector omega = new Vector(size);
-        InterpolationFunction fer = weights.getInterpolationFunction();
+        InterpolationFunctions fer = weights.getInterpolationFunctions();
         omega.set(0, fer.eval(ordered_weights.get(0), size));
 
         double acc = ordered_weights.get(0);
