@@ -59,8 +59,8 @@ final class InterpolationFunction {
     }
 
     InterpolationFunction(
-            final StraightLine line1,
-            final StraightLine line2,
+            final Line line1,
+            final Line line2,
             final Point point1,
             final Point point2) {
 
@@ -113,8 +113,8 @@ final class InterpolationFunction {
      * @param point2
      */
     private void calcDVOWDNa(
-            final StraightLine line1,
-            final StraightLine line2,
+            final Line line1,
+            final Line line2,
             final Point point1,
             final Point point2) {
 
@@ -129,7 +129,7 @@ final class InterpolationFunction {
                 (point2.x + average_x) / 2.0,
                 line2.a * (point2.x + average_x) / 2.0 + line2.b);
 
-        StraightLine median = StraightLine.fromPoints(p1, p3);
+        Line median = Line.fromPoints(p1, p3);
         this.p2 = new Point(average_x, median.eval(average_x));
 
         assert p3.y <= Math.max(point2.y, point1.y);
@@ -146,8 +146,8 @@ final class InterpolationFunction {
 
 
     private void calcDVOWDa(
-            final StraightLine line0,
-            final StraightLine line1,
+            final Line line0,
+            final Line line1,
             final Point p0,
             final Point p1) {
 
@@ -180,7 +180,7 @@ final class InterpolationFunction {
                 (p1.x + x_between) / 2.0,
                 line1.a * (p1.x + x_between) / 2.0 + line1.b);
 
-        StraightLine straight_line = StraightLine.fromPoints(this.p1, this.p3);
+        Line straight_line = Line.fromPoints(this.p1, this.p3);
         this.p2 = new Point(
                 x_between,
                 straight_line.eval(x_between));

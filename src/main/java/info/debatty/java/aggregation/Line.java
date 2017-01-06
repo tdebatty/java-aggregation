@@ -27,12 +27,12 @@ package info.debatty.java.aggregation;
  * Represents a straight line, and allows to compute y = ax + b.
  * @author Thibault Debatty
  */
-final class StraightLine {
+final class Line {
 
     double a = 0.0;
     double b = 0.0;
 
-    StraightLine(final double a, final double b) {
+    Line(final double a, final double b) {
         this.a = a;
         this.b = b;
     }
@@ -44,7 +44,7 @@ final class StraightLine {
      * @param p1
      * @return
      */
-    public static StraightLine fromPoints(final Point p0, final Point p1) {
+    public static Line fromPoints(final Point p0, final Point p1) {
         double a, b;
 
         if (p0.x == p1.x) {
@@ -55,8 +55,7 @@ final class StraightLine {
         a = (p0.y - p1.y) / (p0.x - p1.x);
         b = (p1.x * p0.y - p0.x * p1.y) / (p1.x - p0.x);
 
-        return new StraightLine(a, b);
-
+        return new Line(a, b);
     }
 
 

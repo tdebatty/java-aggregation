@@ -26,7 +26,7 @@ package info.debatty.java.aggregation;
 
 class Lines {
 
-    private final StraightLine[] lines;
+    private final Line[] lines;
 
     static boolean McAllister = false;
     // false = Modificacio meva C & O
@@ -36,7 +36,7 @@ class Lines {
 
     Lines(final Point[] points) {
 
-        lines = new StraightLine[points.length];
+        lines = new Line[points.length];
 
 
         // will store the angular coeficient between successive points
@@ -65,7 +65,7 @@ class Lines {
         }
 
         for (int i = 1; i <= size; i++) {
-            this.lines[i - 1] = new StraightLine(
+            this.lines[i - 1] = new Line(
                     line_coefs[i],
                     points[i - 1].y - line_coefs[i] * points[i - 1].x);
         }
@@ -81,7 +81,7 @@ class Lines {
      * @param position
      * @return
      */
-    public StraightLine get(final int position) {
+    public Line get(final int position) {
         return lines[position];
     }
 
