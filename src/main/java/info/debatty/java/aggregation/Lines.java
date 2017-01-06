@@ -65,6 +65,7 @@ class Lines {
             } else {
                 m[1] = 0.0;
             }
+
         } else {
             if ((m[2] == 0.0) && (s[2] == 0.0)) {
                 m[1] = 0.0;
@@ -81,14 +82,14 @@ class Lines {
             } else {
                 m[N] = 0.0;
             }
+
         } else {
             if ((m[N - 1] == 0.0) && (s[N] == 0.0)) {
                 m[N] = 0.0;
             } else if (m[N - 1] == 0.0) {
                 m[N] = infinit;
             } else {
-                m[N] = s[N] * s[N]
-                        / m[N - 1];
+                m[N] = s[N] * s[N] / m[N - 1];
             }
         }
 
@@ -100,5 +101,9 @@ class Lines {
 
     public static void setMcAllister() {
         McAllister = true;
+    }
+
+    public StraightLine get(int position) {
+        return lines[position];
     }
 }

@@ -8,7 +8,7 @@ final class Function {
 
     private enum Type {
         straight,
-        bernstein
+        doubleBernstein
     }
 
     private Type type = Type.straight;
@@ -17,11 +17,13 @@ final class Function {
     private double n = 0;
 
     // Used by Bernstein interpolation
-    private Point di = new Point();
-    private Point vi = new Point();
-    private Point oi = new Point();
-    private Point wi = new Point();
-    private Point di_p1 = new Point();
+    // points are used to store the bernstein coeficients βi and
+    // interval bounds :(
+    private Point p0 = new Point();
+    private Point p1 = new Point();
+    private Point p2 = new Point();
+    private Point p3 = new Point();
+    private Point p4 = new Point();
 
     Function() {
     }
@@ -53,11 +55,11 @@ final class Function {
             y = m * x + n;
 
         } else {
-            if ((di.x <= x) && (x <= oi.x)) {
-                y = Point.bernstein(di, vi, oi, x);
+            if ((p0.x <= x) && (x <= p2.x)) {
+                y = Point.bernstein(p0, p1, p2, x);
 
             } else /* x in [ti, xiP1] */ {
-                y = Point.bernstein(oi, wi, di_p1, x);
+                y = Point.bernstein(p2, p3, p4, x);
             }
         }
 
@@ -89,25 +91,25 @@ final class Function {
 
         double average_x = (point1.x + point2.x) / 2.0;
 
-        this.vi = new Point(
+        this.p1 = new Point(
                 (point1.x + average_x) / 2.0,
                 line1.a * (point1.x + average_x) / 2.0 + line1.b);
 
-        this.wi = new Point(
+        this.p3 = new Point(
                 (point2.x + average_x) / 2.0,
                 line2.a * (point2.x + average_x) / 2.0 + line2.b);
 
-        StraightLine median = StraightLine.fromPoints(vi, wi);
-        this.oi = new Point(average_x, median.eval(average_x));
+        StraightLine median = StraightLine.fromPoints(p1, p3);
+        this.p2 = new Point(average_x, median.eval(average_x));
 
-        assert wi.y <= Math.max(point2.y, point1.y);
-        assert vi.y <= Math.max(point2.y, point1.y);
-        assert wi.y >= Math.min(point2.y, point1.y);
-        assert vi.y >= Math.min(point2.y, point1.y);
+        assert p3.y <= Math.max(point2.y, point1.y);
+        assert p1.y <= Math.max(point2.y, point1.y);
+        assert p3.y >= Math.min(point2.y, point1.y);
+        assert p1.y >= Math.min(point2.y, point1.y);
 
-        this.type = Type.bernstein;
-        this.di = new Point(point1);
-        this.di_p1 = new Point(point2);
+        this.type = Type.doubleBernstein;
+        this.p0 = new Point(point1);
+        this.p4 = new Point(point2);
 
         //return(f);
     } /* ecalcDVOWDNa */
@@ -130,19 +132,20 @@ final class Function {
             tip = (point1.x + point2.x) / 2.0;
         }
 
-        vi.x = (point1.x + tip) / 2.0;
-        vi.y = line1.a * (point1.x + tip) / 2.0 + line1.b;
-        wi.x = (point2.x + tip) / 2.0;
-        wi.y = line2.a * (point2.x + tip) / 2.0 + line2.b;
-        oi.x = tip;
+        p1.x = (point1.x + tip) / 2.0;
+        p1.y = line1.a * (point1.x + tip) / 2.0 + line1.b;
+        p3.x = (point2.x + tip) / 2.0;
+        p3.y = line2.a * (point2.x + tip) / 2.0 + line2.b;
+        p2.x = tip;
 
-        StraightLine R = StraightLine.fromPoints(vi, wi);
-        oi.y = R.eval(tip);
-        this.type = Type.bernstein;
-        this.di.x = point1.x;
-        this.di.y = point1.y;
-        this.di_p1.x = point2.x;
-        this.di_p1.y = point2.y;
+        StraightLine R = StraightLine.fromPoints(p1, p3);
+        p2.y = R.eval(tip);
+
+        this.type = Type.doubleBernstein;
+        this.p0.x = point1.x;
+        this.p0.y = point1.y;
+        this.p4.x = point2.x;
+        this.p4.y = point2.y;
 
     }
 

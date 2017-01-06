@@ -28,31 +28,34 @@ class Point {
         this.y = other.y;
     }
 
-    /**
-     * ***********************************************************
-     */
-    /* Bernstein es un eval y una funcio oculta 			*/
-    /**
-     * ***********************************************************
-     */
-    static double bernstein(Point p1, Point p2, Point p3, double x) {
 
-        double p1x = p1.x;
-        double p1y = p1.y;
-        double p2y = p2.y;
-        double p3x = p3.x;
-        double p3y = p3.y;
+    /**
+     * Evaluate order 2 bernstein polynomial.
+     * β0.(1-x)² + β1.2x.(1-x) + β2.x²
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param x
+     * @return
+     */
+    static double bernstein(Point p0, Point p1, Point p2, double x) {
 
-        if (p3x == p1x) {
-            return p1y;
+        double p0x = p0.x;
+        double b0 = p0.y;
+        double b1 = p1.y;
+        double p2x = p2.x;
+        double b2 = p2.y;
+
+        if (p2x == p0x) {
+            return b0;
         }
 
         double y =
-                p1y * (p3x - x) * (p3x - x)
-                + 2.0 * p2y * (x - p1x) * (p3x - x)
-                + p3y * (x - p1x) * (x - p1x);
+                  b0 * (p2x - x) * (p2x - x)
+                + b1 * 2.0  * (x - p0x) * (p2x - x)
+                + b2 * (x - p0x) * (x - p0x);
 
-        y = y / ((p3x - p1x) * (p3x - p1x));
+        y = y / ((p2x - p0x) * (p2x - p0x));
 
         return (y);
     }
