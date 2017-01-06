@@ -35,29 +35,37 @@ class Point {
     /**
      * ***********************************************************
      */
-    static double Bernstein(Point di, Point wi, Point oi, double x) {
+    static double bernstein(Point p1, Point p2, Point p3, double x) {
 
-        double xi = di.x;
-        double mi = di.y;
-        double b = wi.y;
-        double ti = oi.x;
-        double mbi = oi.y;
+        double p1x = p1.x;
+        double p1y = p1.y;
+        double p2y = p2.y;
+        double p3x = p3.x;
+        double p3y = p3.y;
 
-        if (ti == xi) {
-            return mi;
+        if (p3x == p1x) {
+            return p1y;
         }
 
+        double y =
+                p1y * (p3x - x) * (p3x - x)
+                + 2.0 * p2y * (x - p1x) * (p3x - x)
+                + p3y * (x - p1x) * (x - p1x);
 
-        double y = mi * (ti - x) * (ti - x) + 2.0 * b * (x - xi) * (ti - x);
-        y = y + mbi * (x - xi) * (x - xi);
-        y = y / ((ti - xi) * (ti - xi));
+        y = y / ((p3x - p1x) * (p3x - p1x));
 
         return (y);
-    } /* eBernstein */
+    }
 
 
-    public static double calculaSi(Point di, Point di_1) {
-        return (di.y - di_1.y) / (di.x - di_1.x);
+    /**
+     * Compute the angular coefficient between points p1 and p2: Δy/Δx.
+     * @param p2
+     * @param p1
+     * @return
+     */
+    public static double computeCoef(final Point p1, final Point p2) {
+        return (p2.y - p1.y) / (p2.x - p1.x);
     }
 
     public static double calculaMi(double si, double siP1, Point di,

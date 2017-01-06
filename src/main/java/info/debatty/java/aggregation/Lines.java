@@ -49,7 +49,7 @@ class Lines {
         int N = points.length + 1 - 1; //N es la darrera posicio de d, i d es num_values+1
 
         for (i = 2; i <= N; i++) {
-            s[i] = Point.calculaSi(points[i - 1], points[i - 2]);
+            s[i] = Point.computeCoef(points[i - 2], points[i - 1]);
         }
 
         for (i = 2; i <= N - 1; i++) {

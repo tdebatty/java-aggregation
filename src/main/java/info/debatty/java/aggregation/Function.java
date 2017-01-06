@@ -51,11 +51,13 @@ final class Function {
 
         if (type == Type.straight) {
             y = m * x + n;
+
         } else {
             if ((di.x <= x) && (x <= oi.x)) {
-                y = Point.Bernstein(di, vi, oi, x);
+                y = Point.bernstein(di, vi, oi, x);
+
             } else /* x in [ti, xiP1] */ {
-                y = Point.Bernstein(oi, wi, di_p1, x);
+                y = Point.bernstein(oi, wi, di_p1, x);
             }
         }
 
@@ -85,28 +87,23 @@ final class Function {
             final Point point2) {
 
 
-        double tip = (point1.x + point2.x) / 2.0;
+        double average_x = (point1.x + point2.x) / 2.0;
 
-        vi.x = (point1.x + tip) / 2.0;
-        vi.y = line1.a * (point1.x + tip) / 2.0 + line1.b;
-        wi.x = (point2.x + tip) / 2.0;
-        wi.y = line2.a * (point2.x + tip) / 2.0 + line2.b;
+        this.vi = new Point(
+                (point1.x + average_x) / 2.0,
+                line1.a * (point1.x + average_x) / 2.0 + line1.b);
 
-        StraightLine R = StraightLine.fromPoints(vi, wi);
-        this.oi = new Point(tip, R.eval(tip));
+        this.wi = new Point(
+                (point2.x + average_x) / 2.0,
+                line2.a * (point2.x + average_x) / 2.0 + line2.b);
 
-        if (wi.y > Math.max(point2.y, point1.y)) {
-            System.out.println("wwfuncio.DVOWDNa: Error1");
-        }
-        if (vi.y > Math.max(point2.y, point1.y)) {
-            System.out.println("wwfuncio.DVOWDNa: Error2");
-        }
-        if (wi.y < Math.min(point2.y, point1.y)) {
-            System.out.println("wwfuncio.DVOWDNa: Error3");
-        }
-        if (vi.y < Math.min(point2.y, point1.y)) {
-            System.out.println("wwfuncio.DVOWDNa: Error4");
-        }
+        StraightLine median = StraightLine.fromPoints(vi, wi);
+        this.oi = new Point(average_x, median.eval(average_x));
+
+        assert wi.y <= Math.max(point2.y, point1.y);
+        assert vi.y <= Math.max(point2.y, point1.y);
+        assert wi.y >= Math.min(point2.y, point1.y);
+        assert vi.y >= Math.min(point2.y, point1.y);
 
         this.type = Type.bernstein;
         this.di = new Point(point1);
