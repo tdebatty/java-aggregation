@@ -48,43 +48,43 @@ class InterpolationFunctions {
         }
 
         // compute the angular coef of each tangent line
-        double[] line_coefs = new double[points.length + 1];
-        for (int i = 2; i <= size - 1; i++) {
+        double[] line_coefs = new double[points.length];
+        for (int i = 1; i < size - 1; i++) {
             line_coefs[i] = Point.computeLineCoef(
-                    point_coefs[i - 2],
                     point_coefs[i - 1],
+                    point_coefs[i],
+                    points[i],
                     points[i - 1],
-                    points[i - 2],
-                    points[i]);
+                    points[i + 1]);
         }
 
         // Modify the first and last value in line_coefs
         // See "The WOWA operator and the interpolation function W* : Chen and
         // Otto's interpolation method revisited" p. 8
-        if ((line_coefs[2] == 0.0) && (point_coefs[0] == 0.0)) {
-            line_coefs[1] = 0.0;
-        } else if (line_coefs[2] == 0.0) {
-            line_coefs[1] = INFINITY;
+        if ((line_coefs[1] == 0.0) && (point_coefs[0] == 0.0)) {
+            line_coefs[0] = 0.0;
+        } else if (line_coefs[1] == 0.0) {
+            line_coefs[0] = INFINITY;
         } else {
-            line_coefs[1] = point_coefs[0] * point_coefs[0] / line_coefs[2];
+            line_coefs[0] = point_coefs[0] * point_coefs[0] / line_coefs[1];
         }
 
-        if ((line_coefs[size - 1] == 0.0) && (point_coefs[size - 2] == 0.0)) {
-            line_coefs[size] = 0.0;
-        } else if (line_coefs[size - 1] == 0.0) {
-            line_coefs[size] = INFINITY;
+        if ((line_coefs[size - 2] == 0.0) && (point_coefs[size - 2] == 0.0)) {
+            line_coefs[size - 1] = 0.0;
+        } else if (line_coefs[size - 2] == 0.0) {
+            line_coefs[size - 1] = INFINITY;
         } else {
-            line_coefs[size] =
+            line_coefs[size - 1] =
                     point_coefs[size - 2] * point_coefs[size - 2]
-                    / line_coefs[size - 1];
+                    / line_coefs[size - 2];
         }
 
         // Create the actual lines
         Line[] lines = new Line[points.length];
-        for (int i = 1; i <= size; i++) {
-            lines[i - 1] = new Line(
+        for (int i = 0; i < size; i++) {
+            lines[i] = new Line(
                     line_coefs[i],
-                    points[i - 1].y - line_coefs[i] * points[i - 1].x);
+                    points[i].y - line_coefs[i] * points[i].x);
         }
 
         // Compute the interpolation functions between each pair of points,
