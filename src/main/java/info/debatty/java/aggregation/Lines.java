@@ -41,19 +41,18 @@ class Lines {
             lines[i] = new StraightLine(0, 0);
         }
 
-
         // will store the angular coeficient between successive points
         double[] coefs = new double[points.length + 1];
         double[] m = new double[points.length + 1];
 
         int i = 0;
-        int N = points.length;
+        int size = points.length;
 
-        for (i = 2; i <= N; i++) {
+        for (i = 2; i <= size; i++) {
             coefs[i] = Point.computeCoef(points[i - 2], points[i - 1]);
         }
 
-        for (i = 2; i <= N - 1; i++) {
+        for (i = 2; i <= size - 1; i++) {
             m[i] = Point.calculaMi(
                     coefs[i],
                     coefs[i + 1],
@@ -63,40 +62,12 @@ class Lines {
         }
 
         if (McAllister) {
-            if ((coefs[2] * (2 * coefs[2] - m[2])) > 0.0) {
-                m[1] = 2 * coefs[2] - m[2];
-            } else {
-                m[1] = 0.0;
-            }
-
+            computeMcAllister(coefs, m);
         } else {
-            if ((m[2] == 0.0) && (coefs[2] == 0.0)) {
-                m[1] = 0.0;
-            } else if (m[2] == 0.0) {
-                m[1] = INFINITY;
-            } else {
-                m[1] = coefs[2] * coefs[2] / m[2];
-            }
+            compute(coefs, m);
         }
 
-        if (McAllister) {
-            if ((coefs[N] * (2 * coefs[N] - m[N - 1])) > 0.0) {
-                m[N] = 2 * coefs[N] - m[N - 1];
-            } else {
-                m[N] = 0.0;
-            }
-
-        } else {
-            if ((m[N - 1] == 0.0) && (coefs[N] == 0.0)) {
-                m[N] = 0.0;
-            } else if (m[N - 1] == 0.0) {
-                m[N] = INFINITY;
-            } else {
-                m[N] = coefs[N] * coefs[N] / m[N - 1];
-            }
-        }
-
-        for (i = 1; i <= N; i++) {
+        for (i = 1; i <= size; i++) {
             this.lines[i - 1].a = m[i];
             this.lines[i - 1].b = points[i - 1].y - m[i] * points[i - 1].x;
         }
@@ -108,10 +79,58 @@ class Lines {
 
     /**
      * Get the line at given position.
+     *
      * @param position
      * @return
      */
     public StraightLine get(final int position) {
         return lines[position];
+    }
+
+    /**
+     * Modify the first and last value in m using McAllister.
+     * @param coefs
+     * @param m
+     */
+    private void computeMcAllister(final double[] coefs, final double[] m) {
+        if ((coefs[2] * (2 * coefs[2] - m[2])) > 0.0) {
+            m[1] = 2 * coefs[2] - m[2];
+        } else {
+            m[1] = 0.0;
+        }
+
+        int size = coefs.length - 1;
+
+        if ((coefs[size] * (2 * coefs[size] - m[size - 1])) > 0.0) {
+            m[size] = 2 * coefs[size] - m[size - 1];
+        } else {
+            m[size] = 0.0;
+        }
+
+    }
+
+    /**
+     * Modify the first and last value in m using classical method.
+     * @param coefs
+     * @param m
+     */
+    private void compute(final double[] coefs, final double[] m) {
+        if ((m[2] == 0.0) && (coefs[2] == 0.0)) {
+            m[1] = 0.0;
+        } else if (m[2] == 0.0) {
+            m[1] = INFINITY;
+        } else {
+            m[1] = coefs[2] * coefs[2] / m[2];
+        }
+
+        int size = coefs.length - 1;
+
+        if ((m[size - 1] == 0.0) && (coefs[size] == 0.0)) {
+            m[size] = 0.0;
+        } else if (m[size - 1] == 0.0) {
+            m[size] = INFINITY;
+        } else {
+            m[size] = coefs[size] * coefs[size] / m[size - 1];
+        }
     }
 }

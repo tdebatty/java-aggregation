@@ -103,5 +103,4 @@ class Point {
 
         return coef0;
     }
-
 }
