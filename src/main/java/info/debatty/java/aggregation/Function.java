@@ -6,29 +6,35 @@ package info.debatty.java.aggregation;
  */
 final class Function {
 
-    private int type = 1;             /* 1: recta, 2: dobleBernstein */
+    private enum Type {
+        straight,
+        bernstein
+    }
+
+    private Type type = Type.straight;
 
     private double m = 0;
     private double n = 0;
 
-    private final Point di = new Point();
-    private final Point vi = new Point();
-    private final Point oi = new Point();
-    private final Point wi = new Point();
-    private final Point diP1 = new Point();
+    // Used by Bernstein interpolation
+    private Point di = new Point();
+    private Point vi = new Point();
+    private Point oi = new Point();
+    private Point wi = new Point();
+    private Point di_p1 = new Point();
 
     Function() {
     }
 
     public Function (
-            StraightLine line1,
-            StraightLine line2,
-            Point point1,
-            Point point2) {
+            final StraightLine line1,
+            final StraightLine line2,
+            final Point point1,
+            final Point point2) {
 
 
         if ((line1.a == line2.a) && (line1.b == line2.b)) {
-            this.type = 1;
+            this.type = Type.straight;
             this.m = line1.a;
             this.n = line1.b;
 
@@ -40,16 +46,16 @@ final class Function {
         }
     }
 
-    public double eval(double x) {
+    public double eval(final double x) {
         double y;
 
-        if (type == 1) {
+        if (type == Type.straight) {
             y = m * x + n;
         } else {
             if ((di.x <= x) && (x <= oi.x)) {
                 y = Point.Bernstein(di, vi, oi, x);
             } else /* x in [ti, xiP1] */ {
-                y = Point.Bernstein(oi, wi, diP1, x);
+                y = Point.Bernstein(oi, wi, di_p1, x);
             }
         }
 
@@ -72,11 +78,11 @@ final class Function {
      * @param point1
      * @param point2
      */
-    public void calcDVOWDNa(
-            StraightLine line1,
-            StraightLine line2,
-            Point point1,
-            Point point2) {
+    private void calcDVOWDNa(
+            final StraightLine line1,
+            final StraightLine line2,
+            final Point point1,
+            final Point point2) {
 
 
         double tip = (point1.x + point2.x) / 2.0;
@@ -87,8 +93,7 @@ final class Function {
         wi.y = line2.a * (point2.x + tip) / 2.0 + line2.b;
 
         StraightLine R = StraightLine.fromPoints(vi, wi);
-        oi.x = tip;
-        oi.y = R.eval(tip);
+        this.oi = new Point(tip, R.eval(tip));
 
         if (wi.y > Math.max(point2.y, point1.y)) {
             System.out.println("wwfuncio.DVOWDNa: Error1");
@@ -103,43 +108,44 @@ final class Function {
             System.out.println("wwfuncio.DVOWDNa: Error4");
         }
 
-        this.type = 2;
-        this.di.x = point1.x;
-        this.di.y = point1.y;
-        this.diP1.x = point2.x;
-        this.diP1.y = point2.y;
+        this.type = Type.bernstein;
+        this.di = new Point(point1);
+        this.di_p1 = new Point(point2);
 
         //return(f);
     } /* ecalcDVOWDNa */
 
 
-    public void calcDVOWDa(StraightLine Li, StraightLine LiP1, Point di,
-            Point diP1) {
+    private void calcDVOWDa(
+            final StraightLine line1,
+            final StraightLine line2,
+            final Point point1,
+            final Point point2) {
 
         double tip;
-        double ti = (Li.b - LiP1.b) / (LiP1.a - Li.a);
-        double zi = (LiP1.a * Li.b - Li.a * LiP1.b) / (LiP1.a - Li.a);
+        double ti = (line1.b - line2.b) / (line2.a - line1.a);
+        double zi = (line2.a * line1.b - line1.a * line2.b) / (line2.a - line1.a);
 
-        if ((di.x <= ti) && (ti <= diP1.x)
-                && (di.y <= zi) && (zi <= diP1.y)) {
+        if ((point1.x <= ti) && (ti <= point2.x)
+                && (point1.y <= zi) && (zi <= point2.y)) {
             tip = ti;
         } else {
-            tip = (di.x + diP1.x) / 2.0;
+            tip = (point1.x + point2.x) / 2.0;
         }
 
-        vi.x = (di.x + tip) / 2.0;
-        vi.y = Li.a * (di.x + tip) / 2.0 + Li.b;
-        wi.x = (diP1.x + tip) / 2.0;
-        wi.y = LiP1.a * (diP1.x + tip) / 2.0 + LiP1.b;
+        vi.x = (point1.x + tip) / 2.0;
+        vi.y = line1.a * (point1.x + tip) / 2.0 + line1.b;
+        wi.x = (point2.x + tip) / 2.0;
+        wi.y = line2.a * (point2.x + tip) / 2.0 + line2.b;
         oi.x = tip;
 
         StraightLine R = StraightLine.fromPoints(vi, wi);
         oi.y = R.eval(tip);
-        this.type = 2;
-        this.di.x = di.x;
-        this.di.y = di.y;
-        this.diP1.x = diP1.x;
-        this.diP1.y = diP1.y;
+        this.type = Type.bernstein;
+        this.di.x = point1.x;
+        this.di.y = point1.y;
+        this.di_p1.x = point2.x;
+        this.di_p1.y = point2.y;
 
     }
 
