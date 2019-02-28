@@ -56,7 +56,9 @@ public class WOWATest extends TestCase {
         double[] ordered_weights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0};
 
         WOWA wowa = new WOWA(weights, ordered_weights);
-        double exp = 0.3;
+        //double exp = 0.3;
+        //Value checked with php-aggregation package
+        double exp = 0.2;
         double result = wowa.aggregate(values);
         assertEquals(exp, result, 1E-9);
     }
@@ -69,7 +71,9 @@ public class WOWATest extends TestCase {
         double[] weights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0};
 
         WOWA wowa = new WOWA(weights, ordered_weights);
-        double exp = 0.2;
+        //double exp = 0.2;
+        //Value checked thanks to php-aggregation
+        double exp = 0.3;
         double result = wowa.aggregate(values);
         assertEquals(exp, result, 1E-9);
     }
