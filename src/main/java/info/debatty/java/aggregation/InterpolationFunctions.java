@@ -30,7 +30,7 @@ package info.debatty.java.aggregation;
  */
 class InterpolationFunctions {
 
-    private static final double INFINITY = Double.MAX_VALUE;
+    private static final double INFINITY = 10E100;
 
     private final Point[] points;
     private final InterpolationFunction[] functions;
