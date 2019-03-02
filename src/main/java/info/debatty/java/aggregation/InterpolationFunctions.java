@@ -30,6 +30,8 @@ package info.debatty.java.aggregation;
  */
 class InterpolationFunctions {
 
+    // This will in some cases be multiplied by 2, hence we use a smaller
+    // value to avoid overflow
     private static final double INFINITY = 10E100;
 
     private final Point[] points;
