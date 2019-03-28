@@ -48,12 +48,28 @@ public class WOWA implements AggregatorInterface {
      * @param ordered_weights
      */
     public WOWA(final double[] weights, final double[] ordered_weights) {
+        if (weights.length != ordered_weights.length) {
+            throw new IllegalArgumentException("Weights arrays have different size");
+        }
+        for (int i = 0; i < weights.length; i++) {
+            if (weights[i] < 0 || weights[i] > 1 || ordered_weights[i] < 0 || ordered_weights[i] > 1) {
+                throw new IllegalArgumentException("Weights must be between 0 and 1");
+            }
+        }
         this.weights = new Vector(weights);
         this.ordered_weights = new Vector(ordered_weights);
     }
 
     @Override
     public final double aggregate(final double[] values) {
+        if (values.length != weights.size()) {
+            throw new IllegalArgumentException("Data array size must be equal to weights arrays size");
+        }
+        for (double v : values) {
+            if (v < 0 || v > 1) {
+                throw new IllegalArgumentException("Data values must be between 0 and 1");
+            }
+        }
         int size = weights.size();
 
         Vector values_vector = new Vector(values);
