@@ -50,7 +50,7 @@ public class OWATest {
         OWA instance = new OWA(weights);
         double expResult = 0.2;
         double result = instance.aggregate(values);
-        assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result);
     }
     /**
      * Test if Exception is triggered during the construction.
