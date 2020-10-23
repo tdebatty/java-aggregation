@@ -24,17 +24,19 @@
 
 package info.debatty.java.aggregation;
 
-import junit.framework.TestCase;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  *
  * @author Thibault Debatty
  */
-public class OWATest extends TestCase {
+public class OWATest {
 
-    public OWATest(String testName) {
-        super(testName);
-    }
+    private OWA owa;
 
     /**
      * Test of aggregate method, of class OWA.
@@ -49,6 +51,22 @@ public class OWATest extends TestCase {
         double expResult = 0.2;
         double result = instance.aggregate(values);
         assertEquals(expResult, result, 0.0);
+    }
+    /**
+     * Test if Exception is triggered during the construction.
+     * If the vector has a sum different from 1.0.
+     */
+    @Test
+    public void testIllegalArgumentExceptionThrown() {
+        final double[] values3 = {0.1, 0.6, 0.2, 0.4};
+        assertThrows(IllegalArgumentException.class, () -> {
+            new OWA(values3);
+        });
+
+        final double[] values4 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        assertThrows(IllegalArgumentException.class, () -> {
+            new OWA(values4);
+        });
     }
 
 }
