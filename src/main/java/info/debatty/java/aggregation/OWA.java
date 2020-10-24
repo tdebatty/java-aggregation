@@ -37,7 +37,10 @@ public class OWA implements AggregatorInterface {
      * Initialize with provided weights.
      * @param weights
      */
-    public OWA(final double[] weights) {
+    public OWA(final double[] weights)  {
+        if (arraySum(weights) != 1.0) {
+            throw new IllegalArgumentException("Sum of weights must be equal to 1");
+        }
         this.weights = new Vector(weights);
     }
 
@@ -46,5 +49,19 @@ public class OWA implements AggregatorInterface {
 
         Vector values_vector = new Vector(values);
         return values_vector.sort().dotProduct(weights);
+    }
+
+    /**
+     * Method to sum the elements in an double array.
+     * Used to check if the sum of vector's elements is equal to 1.0.
+     * @param values
+     * @return
+     */
+    protected final double arraySum(final double[] values) {
+        double sum = 0.0;
+        for (double el : values) {
+            sum = sum + el;
+        }
+        return sum;
     }
 }

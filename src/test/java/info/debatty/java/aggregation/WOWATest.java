@@ -24,20 +24,23 @@
 
 package info.debatty.java.aggregation;
 
-import junit.framework.TestCase;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  *
  * @author Thibault Debatty
  */
-public class WOWATest extends TestCase {
+public class WOWATest {
 
     /**
      * Test of aggregate method, of class WOWA.
      */
+    @Test
     public void testAggregate() {
-        System.out.println("WOWA");
-
         double[] values = new double[] {0.4, 0.2, 0.3, 0.1, 0.0};
         double[] weights = new double[] {0.1, 0.2, 0.3, 0.4, 0.0};
         double[] ordered_weights = new double[] {0.1, 0.2, 0.3, 0.4, 0.0};
@@ -47,10 +50,8 @@ public class WOWATest extends TestCase {
         double result = wowa.aggregate(values);
         assertEquals(exp, result, 1E-9);
     }
-
+    @Test
     public void testAggregate2() {
-        System.out.println("WOWA2");
-
         double[] values = new double[] {0.4, 0.2, 0.3, 0.1, 0.0};
         double[] weights = new double[] {0.2, 0.2, 0.2, 0.2, 0.2};
         double[] ordered_weights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0};
@@ -62,10 +63,8 @@ public class WOWATest extends TestCase {
         double result = wowa.aggregate(values);
         assertEquals(exp, result, 1E-9);
     }
-
+    @Test
     public void testAggregate3() {
-        System.out.println("WOWA3");
-
         double[] values = new double[] {0.4, 0.2, 0.3, 0.1, 0.0};
         double[] ordered_weights = new double[] {0.2, 0.2, 0.2, 0.2, 0.2};
         double[] weights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0};
@@ -76,6 +75,31 @@ public class WOWATest extends TestCase {
         double exp = 0.3;
         double result = wowa.aggregate(values);
         assertEquals(exp, result, 1E-9);
+    }
+
+    /**
+     * Test if Exception is triggered during the construction.
+     * If at least one vector has a sum different from 1.0.
+     */
+    @Test
+    public void testIllegalArgumentExceptionThrown() {
+        final double[] values3 = {0.1, 0.6, 0.2, 0.4};
+        final double[] values4 = {0.2, 0.5, 0.2, 0.1};
+        assertThrows(IllegalArgumentException.class, () -> {
+            new WOWA(values3, values4);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new WOWA(values4, values3);
+        });
+
+        final double[] values5 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        final double[] values6 = {0.2, 0.3, 0.5, 0.3, 0.4, 0.4, 0.1};
+        assertThrows(IllegalArgumentException.class, () -> {
+            new WOWA(values5, values6);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new WOWA(values6, values5);
+        });
     }
 
 }

@@ -56,6 +56,9 @@ public class WOWA implements AggregatorInterface {
                 throw new IllegalArgumentException("Weights must be between 0 and 1");
             }
         }
+        if (arraySum(weights) != 1.0 || arraySum(ordered_weights) != 1.0) {
+            throw new IllegalArgumentException("Sum of a weights vector must be equal to 1");
+        }
         this.weights = new Vector(weights);
         this.ordered_weights = new Vector(ordered_weights);
     }
@@ -90,5 +93,19 @@ public class WOWA implements AggregatorInterface {
         }
 
         return values_vector.dotProduct(omega);
+    }
+
+    /**
+     * Method to sum the elements in an double array.
+     * Used to check if the sum of vector's elements is equal to 1.0.
+     * @param values
+     * @return
+     */
+    protected final double arraySum(final double[] values) {
+        double sum = 0.0;
+        for (double el : values) {
+            sum = sum + el;
+        }
+        return sum;
     }
 }
