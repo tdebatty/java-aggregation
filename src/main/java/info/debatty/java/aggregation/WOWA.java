@@ -48,6 +48,7 @@ public class WOWA implements AggregatorInterface {
      * @param ordered_weights
      */
     public WOWA(final double[] weights, final double[] ordered_weights) {
+        double threshold = 0.0000000001;
         if (weights.length != ordered_weights.length) {
             throw new IllegalArgumentException("Weights arrays have different size");
         }
@@ -56,7 +57,8 @@ public class WOWA implements AggregatorInterface {
                 throw new IllegalArgumentException("Weights must be between 0 and 1");
             }
         }
-        if (arraySum(weights) != 1.0 || arraySum(ordered_weights) != 1.0) {
+        if (Math.abs(arraySum(weights) - 1.0) > threshold
+                || Math.abs(arraySum(ordered_weights) - 1.0) > threshold) {
             throw new IllegalArgumentException("Sum of a weights vector must be equal to 1");
         }
         this.weights = new Vector(weights);
