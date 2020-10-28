@@ -56,7 +56,7 @@ public class OWA implements AggregatorInterface {
             throw new IllegalArgumentException("Data array size must be equal to weights arrays size");
         }
         for (double v : values) {
-            if (v < 0 || v > 1) {
+            if (v < 0.0 || v > 1.0) {
                 throw new IllegalArgumentException("Data values must be between 0 and 1");
             }
         }

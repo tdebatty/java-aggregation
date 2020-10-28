@@ -53,7 +53,7 @@ public class WOWA implements AggregatorInterface {
             throw new IllegalArgumentException("Weights arrays have different size");
         }
         for (int i = 0; i < weights.length; i++) {
-            if (weights[i] < 0 || weights[i] > 1 || ordered_weights[i] < 0 || ordered_weights[i] > 1) {
+            if (weights[i] < 0.0 || weights[i] > 1.0 || ordered_weights[i] < 0.0 || ordered_weights[i] > 1.0) {
                 throw new IllegalArgumentException("Weights must be between 0 and 1");
             }
         }
@@ -71,7 +71,7 @@ public class WOWA implements AggregatorInterface {
             throw new IllegalArgumentException("Data array size must be equal to weights arrays size");
         }
         for (double v : values) {
-            if (v < 0 || v > 1) {
+            if (v < 0.0 || v > 1.0) {
                 throw new IllegalArgumentException("Data values must be between 0 and 1");
             }
         }
