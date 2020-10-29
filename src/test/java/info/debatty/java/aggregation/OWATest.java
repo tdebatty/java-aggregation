@@ -69,4 +69,17 @@ public class OWATest {
         });
     }
 
+    @Test
+    public void testWeightsSumBiggerThanOne() {
+        final double[] values = {1, 0.8, 0.6, 0.2, 0.2};
+        final double[] weights = {0.3, 0.3, 0.3, 0.3};
+        assertThrows(IllegalArgumentException.class, () -> {
+            new OWA(weights);
+        });
+
+        final double[] weights2 = {0.2, 0.4, 0.3, 0.1, 0.0};
+        OWA owa = new OWA(weights2);
+        assertEquals(0.72, owa.aggregate(values));
+    }
+
 }

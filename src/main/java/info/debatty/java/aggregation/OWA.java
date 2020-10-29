@@ -38,15 +38,28 @@ public class OWA implements AggregatorInterface {
      * @param weights
      */
     public OWA(final double[] weights)  {
-        if (arraySum(weights) != 1.0) {
+        double threshold = 0.0000000001;
+        if (Math.abs(arraySum(weights) - 1.0) > threshold) {
             throw new IllegalArgumentException("Sum of weights must be equal to 1");
+        }
+        for (double el : weights) {
+            if (el < 0.0 || el > 1.0) {
+                throw new IllegalArgumentException("Weights must be between 0 and 1");
+            }
         }
         this.weights = new Vector(weights);
     }
 
     @Override
     public final double aggregate(final double[] values) {
-
+        if (values.length != weights.size()) {
+            throw new IllegalArgumentException("Data array size must be equal to weights arrays size");
+        }
+        for (double v : values) {
+            if (v < 0.0 || v > 1.0) {
+                throw new IllegalArgumentException("Data values must be between 0 and 1");
+            }
+        }
         Vector values_vector = new Vector(values);
         return values_vector.sort().dotProduct(weights);
     }
